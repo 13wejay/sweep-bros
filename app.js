@@ -1,9 +1,9 @@
 /**
- * Photo Bro - Smart Media Sorter
+ * SweepBros - Smart Media Sorter
  * Premium browser-based photo/video sorting application
  */
 
-class PhotoBro {
+class SweepBros {
   constructor() {
     // State
     this.files = [];
@@ -237,7 +237,7 @@ class PhotoBro {
   }
 
   loadSettings() {
-    const saved = localStorage.getItem("photoBroSettings");
+    const saved = localStorage.getItem("sweepBrosSettings");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -269,7 +269,7 @@ class PhotoBro {
   }
 
   saveSettingsToStorage() {
-    localStorage.setItem("photoBroSettings", JSON.stringify(this.settings));
+    localStorage.setItem("sweepBrosSettings", JSON.stringify(this.settings));
   }
 
   // ===== Folder Binding UI Logic =====
@@ -1108,5 +1108,5 @@ class PhotoBro {
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
-  window.photoBro = new PhotoBro();
+  window.sweepBros = new SweepBros();
 });
