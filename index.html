@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SweepBros - Smart Media Sorter</title>
+    <meta name="description" content="Effortlessly sort your photos and videos into custom folders with keyboard shortcuts.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Landing Hero Section -->
+        <div id="landingPage" class="landing-page">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                            <path d="M10 11v6M14 11v6"/>
+                        </svg>
+                    </div>
+                    <span class="brand-text">Sweep<span class="brand-accent">Bros</span></span>
+                </div>
+                <div class="nav-actions">
+                    <button id="navHelpBtn" class="nav-btn" title="How to Use">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </button>
+                    <button id="navSettingsBtn" class="nav-btn" title="Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+
+            <main class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        No Installation Required
+                    </div>
+                    <h1 class="hero-title">
+                        Sort Your Media<br>
+                        <span class="gradient-text">Into Custom Folders</span>
+                    </h1>
+                    <p class="hero-description">
+                        Use <strong>Number Keys 0-9</strong> or <strong>Arrow Keys</strong> to sort files instantly.
+                        Your files stay on your PC — nothing is uploaded.
+                    </p>
+
+                    <div class="keyboard-demo">
+                        <div class="demo-keys-row">
+                            <div class="demo-key-mini" data-key="1">1</div>
+                            <div class="demo-key-mini" data-key="2">2</div>
+                            <div class="demo-key-mini" data-key="3">3</div>
+                            <div class="demo-key-mini" data-key="...">...</div>
+                            <div class="demo-key-mini" data-key="9">9</div>
+                            <div class="demo-key-mini" data-key="0">0</div>
+                        </div>
+                        <p class="demo-hint">Press number keys to sort into folders</p>
+                    </div>
+
+                    <button id="startBtn" class="cta-button">
+                        <span class="cta-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </span>
+                        <span class="cta-text">Select Folder</span>
+                        <span class="cta-arrow">→</span>
+                    </button>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                    <line x1="12" y1="11" x2="12" y2="17"></line>
+                                    <line x1="9" y1="14" x2="15" y2="14"></line>
+                                </svg>
+                            </div>
+                            <h3>Custom Folders</h3>
+                            <p>Create up to 10 destination folders</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                                    <line x1="6" y1="8" x2="6" y2="8"></line>
+                                    <line x1="10" y1="8" x2="10" y2="8"></line>
+                                    <line x1="14" y1="8" x2="14" y2="8"></line>
+                                    <line x1="18" y1="8" x2="18" y2="8"></line>
+                                    <line x1="6" y1="12" x2="6" y2="12"></line>
+                                    <line x1="10" y1="12" x2="10" y2="12"></line>
+                                    <line x1="14" y1="12" x2="14" y2="12"></line>
+                                    <line x1="18" y1="12" x2="18" y2="12"></line>
+                                    <line x1="6" y1="16" x2="18" y2="16"></line>
+                                </svg>
+                            </div>
+                            <h3>Quick Keys</h3>
+                            <p>Use 0-9 keys to sort instantly</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 7v6h6"></path>
+                                    <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+                                </svg>
+                            </div>
+                            <h3>Undo Support</h3>
+                            <p>Made a mistake? No problem</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Folder Access Modal (Pre-dialog) -->
+        <div id="folderAccessModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="access-card">
+                <div class="access-header">
+                    <div class="access-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            <path d="M12 11v6M9 14h6"/>
+                        </svg>
+                    </div>
+                    <h2>Select Your Folder</h2>
+                    <p>Choose a folder containing photos or videos to sort</p>
+                </div>
+
+                <div class="access-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Choose Folder</h4>
+                            <p>A browser dialog will ask you to select a folder</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Grant Access</h4>
+                            <p>Click "Allow" to let the app read and organize files</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Start Sorting</h4>
+                            <p>Use number keys (0-9) to sort into your custom folders</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="access-info">
+                    <div class="info-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span>Your files stay on your computer. Nothing is uploaded.</span>
+                    </div>
+                </div>
+
+                <div class="access-actions">
+                    <button id="cancelAccessBtn" class="btn-secondary-modal">Cancel</button>
+                    <button id="confirmAccessBtn" class="btn-primary-modal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Choose Folder
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sorting Modal -->
+        <div id="sortingModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="sorting-card">
+                <!-- Header Bar -->
+                <div class="sorting-header">
+                    <div class="header-left">
+                        <button id="closeSortingBtn" class="icon-btn" title="Close">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                        </button>
+                        <div class="file-info">
+                            <span id="fileName" class="file-name">Loading...</span>
+                            <span id="fileCounter" class="file-counter">0 / 0</span>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="progress-pill">
+                            <div id="progressBarFill" class="progress-bar-fill"></div>
+                            <span id="progressPercent" class="progress-text">0%</span>
+                        </div>
+                        <button id="undoBtn" class="icon-btn" title="Undo (Ctrl+Z)" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 7v6h6M21 17a9 9 0 00-9-9 9 9 0 00-6.36 2.64L3 13"/>
+                            </svg>
+                        </button>
+                        <button id="sortingSettingsBtn" class="icon-btn" title="Settings">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="preview-wrapper">
+                    <div class="preview-container">
+                        <div id="loadingState" class="loading-state">
+                            <div class="loader"></div>
+                            <span>Loading media...</span>
+                        </div>
+                        <img id="previewImage" class="preview-media hidden" alt="Preview">
+                        <video id="previewVideo" class="preview-media hidden" controls></video>
+                        
+                        <!-- Arrow Mode Visual Hints -->
+                        <div class="action-hint action-hint-left mode-arrows-only hidden">
+                            <div class="hint-key">←</div>
+                            <span>Delete</span>
+                        </div>
+                        <div class="action-hint action-hint-right mode-arrows-only hidden">
+                            <div class="hint-key">→</div>
+                            <span>Keep</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Folder Shortcuts Bar -->
+                <div class="folder-bar">
+                    <div id="folderShortcuts" class="folder-shortcuts mode-numeric-only">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <!-- Arrow Mode Buttons -->
+                    <div class="arrow-actions mode-arrows-only hidden">
+                        <button id="deleteBtn" class="delete-btn">
+                            <span>Delete</span>
+                            <kbd>←</kbd>
+                        </button>
+                        <button id="keepBtn" class="keep-btn">
+                            <span>Keep</span>
+                            <kbd>→</kbd>
+                        </button>
+                    </div>
+
+                    <button id="skipBtn" class="skip-btn-bar">
+                        <span>Skip</span>
+                        <kbd>Space</kbd>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Modal -->
+        <div id="completionModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="completion-card">
+                <div class="confetti-container" id="confettiContainer"></div>
+                <div class="completion-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <h2 class="completion-title">All Done!</h2>
+                <p class="completion-subtitle">Here's your sorting summary</p>
+
+                <div id="statsContainer" class="stats-container">
+                    <!-- Dynamically populated with folder stats -->
+                </div>
+
+                <div class="completion-actions">
+                    <button id="newSessionBtn" class="cta-button">
+                        <span class="cta-text">Start New Session</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="settings-card">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <button id="closeSettingsBtn" class="icon-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="settings-body">
+                    <!-- Sorting Mode Section -->
+                     <div class="settings-section">
+                        <h3 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Sorting Mode
+                        </h3>
+                        <div class="sorting-mode-select">
+                            <label class="mode-option">
+                                <input type="radio" name="sortingMode" value="numeric" checked>
+                                <div class="mode-card">
+                                    <span class="mode-icon">123</span>
+                                    <span class="mode-label">Number Keys</span>
+                                    <span class="mode-desc">Sort files into numbered folders (0-9)</span>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="sortingMode" value="arrows">
+                                <div class="mode-card">
+                                    <span class="mode-icon">←→</span>
+                                    <span class="mode-label">Arrow Keys</span>
+                                    <span class="mode-desc">Left to Delete, Right to Keep</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Folder Bindings Section -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            Folder Bindings
+                        </h3>
+                        <p class="section-desc">Assign number keys (0-9) to destination folders</p>
+                        
+                        <div id="folderBindingsContainer" class="folder-bindings-container">
+                            <!-- Dynamically populated -->
+                        </div>
+
+                        <button id="addFolderBtn" class="add-folder-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 8v8M8 12h8"/>
+                            </svg>
+                            Add Folder Binding
+                        </button>
+                    </div>
+
+                    <!-- Behavior Section -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            Behavior
+                        </h3>
+                        <div class="setting-row toggle-row">
+                            <div class="setting-info">
+                                <label>Auto-rename files</label>
+                                <span class="setting-hint">Add "_foldername" suffix to moved files</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="autoRenameToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row toggle-row">
+                            <div class="setting-info">
+                                <label>Auto-play videos</label>
+                                <span class="setting-hint">Automatically play video files when previewing</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="autoPlayToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-footer">
+                    <button id="saveSettingsBtn" class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div id="helpModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="settings-card help-card">
+                <div class="settings-header">
+                    <h2>How to Use</h2>
+                    <button id="closeHelpBtn" class="icon-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="settings-body">
+                    <div class="help-section">
+                        <h3 class="section-title">Numeric Mode (Default)</h3>
+                        <p class="help-desc">Sort files into numbered folders.</p>
+                        <ul class="key-list">
+                            <li><kbd>0</kbd>-<kbd>9</kbd> <span>Move to corresponding folder</span></li>
+                            <li><kbd>Space</kbd> <span>Skip file</span></li>
+                            <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> <span>Undo last action</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="help-section">
+                        <h3 class="section-title">Arrow Mode</h3>
+                        <p class="help-desc">Classic Keep/Delete workflow.</p>
+                        <ul class="key-list">
+                            <li><kbd>←</kbd> <span>Delete file</span></li>
+                            <li><kbd>→</kbd> <span>Keep file</span></li>
+                            <li><kbd>Space</kbd> <span>Skip file</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Binding Modal -->
+        <div id="keyBindingModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="completion-card" style="max-width: 400px; padding: 32px;">
+                <h2 style="margin-bottom: 24px;">Press ID Key</h2>
+                <div class="key-binding-display" style="margin-bottom: 32px;">
+                    <div id="pressedKeyDisplay" style="font-size: 3rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-primary); background: var(--bg-surface); padding: 16px 32px; border-radius: var(--radius-lg); border: 2px solid var(--border-color); display: inline-block; min-width: 120px;">-</div>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 24px;">Press any number key (0-9) to assign it to this folder.</p>
+                <div class="access-actions">
+                    <button id="cancelKeyBindBtn" class="btn-secondary-modal">Cancel</button>
+                    <button id="confirmKeyBindBtn" class="btn-primary-modal" disabled>Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
