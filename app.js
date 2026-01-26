@@ -25,7 +25,7 @@ class SweepBros {
     this.showImages = true;
     this.showVideos = true;
     this.fileHashes = new Map();
-    this.theme = 'dark';
+    this.theme = "dark";
     this.autoSaveInterval = null;
     this.folderStats = {};
 
@@ -105,7 +105,9 @@ class SweepBros {
     this.loadingState = document.getElementById("loadingState");
     this.previewImage = document.getElementById("previewImage");
     this.previewVideo = document.getElementById("previewVideo");
-    this.singlePreviewContainer = document.getElementById("singlePreviewContainer");
+    this.singlePreviewContainer = document.getElementById(
+      "singlePreviewContainer",
+    );
     this.zoomContainer = document.getElementById("zoomContainer");
     this.zoomControls = document.getElementById("zoomControls");
     this.zoomInBtn = document.getElementById("zoomInBtn");
@@ -132,7 +134,11 @@ class SweepBros {
 
     // Video controls
     this.videoControlsPanel = document.getElementById("videoControlsPanel");
-    this.videoLoopToggle = document.getElementById("videoLoopToggle");
+    this.videoLoopToggleBtn = document.getElementById("videoLoopToggleBtn");
+    this.playPauseBtn = document.getElementById("playPauseBtn");
+    this.videoSeekBar = document.getElementById("videoSeekBar");
+    this.videoCurrentTime = document.getElementById("videoCurrentTime");
+    this.videoDuration = document.getElementById("videoDuration");
 
     // Smart suggestions
     this.suggestionsPanel = document.getElementById("suggestionsPanel");
@@ -243,46 +249,115 @@ class SweepBros {
       this.zoomOutBtn.addEventListener("click", () => this.zoomOut());
     if (this.zoomResetBtn)
       this.zoomResetBtn.addEventListener("click", () => this.resetZoom());
-    
+
     // Zoom container interactions
     if (this.zoomContainer) {
-      this.zoomContainer.addEventListener("wheel", (e) => this.handleZoomWheel(e));
+      this.zoomContainer.addEventListener("wheel", (e) =>
+        this.handleZoomWheel(e),
+      );
       this.zoomContainer.addEventListener("mousedown", (e) => this.startPan(e));
-      this.zoomContainer.addEventListener("mousemove", (e) => this.handlePan(e));
+      this.zoomContainer.addEventListener("mousemove", (e) =>
+        this.handlePan(e),
+      );
       this.zoomContainer.addEventListener("mouseup", () => this.endPan());
       this.zoomContainer.addEventListener("mouseleave", () => this.endPan());
     }
 
     // File type filters
     if (this.filterImages)
-      this.filterImages.addEventListener("click", () => this.toggleImageFilter());
+      this.filterImages.addEventListener("click", () =>
+        this.toggleImageFilter(),
+      );
     if (this.filterVideos)
-      this.filterVideos.addEventListener("click", () => this.toggleVideoFilter());
+      this.filterVideos.addEventListener("click", () =>
+        this.toggleVideoFilter(),
+      );
     if (this.filterAll)
       this.filterAll.addEventListener("click", () => this.showAllFilters());
 
     // Metadata
     if (this.showMetadataBtn)
-      this.showMetadataBtn.addEventListener("click", () => this.toggleMetadata());
+      this.showMetadataBtn.addEventListener("click", () =>
+        this.toggleMetadata(),
+      );
     if (this.closeMetadata)
       this.closeMetadata.addEventListener("click", () => this.hideMetadata());
 
     // Video controls
-    if (this.videoLoopToggle) {
-      this.videoLoopToggle.addEventListener("change", (e) => {
+    if (this.videoLoopToggleBtn) {
+      this.videoLoopToggleBtn.addEventListener("click", () => {
         if (this.previewVideo) {
-          this.previewVideo.loop = e.target.checked;
+          this.previewVideo.loop = !this.previewVideo.loop;
+          this.videoLoopToggleBtn.classList.toggle(
+            "active",
+            this.previewVideo.loop,
+          );
+        }
+      });
+    }
+
+    if (this.playPauseBtn) {
+      this.playPauseBtn.addEventListener("click", () => {
+        if (this.previewVideo) {
+          if (this.previewVideo.paused) {
+            this.previewVideo.play();
+            this.playPauseBtn
+              .querySelector(".play-icon")
+              .classList.add("hidden");
+            this.playPauseBtn
+              .querySelector(".pause-icon")
+              .classList.remove("hidden");
+          } else {
+            this.previewVideo.pause();
+            this.playPauseBtn
+              .querySelector(".play-icon")
+              .classList.remove("hidden");
+            this.playPauseBtn
+              .querySelector(".pause-icon")
+              .classList.add("hidden");
+          }
+        }
+      });
+    }
+
+    if (this.videoSeekBar) {
+      this.videoSeekBar.addEventListener("input", (e) => {
+        if (!this.previewVideo) return;
+        const time = (this.previewVideo.duration * e.target.value) / 100;
+        this.previewVideo.currentTime = time;
+        this.updateTimeDisplay(time, this.previewVideo.duration);
+      });
+    }
+
+    // Video events for seek bar updates
+    if (this.previewVideo) {
+      this.previewVideo.addEventListener("timeupdate", () => {
+        if (!this.previewVideo.duration) return;
+        const percent =
+          (this.previewVideo.currentTime / this.previewVideo.duration) * 100;
+        if (this.videoSeekBar) this.videoSeekBar.value = percent;
+        this.updateTimeDisplay(
+          this.previewVideo.currentTime,
+          this.previewVideo.duration,
+        );
+      });
+
+      this.previewVideo.addEventListener("loadedmetadata", () => {
+        if (this.videoDuration) {
+          this.updateTimeDisplay(0, this.previewVideo.duration);
         }
       });
     }
 
     // Speed buttons
-    document.querySelectorAll('.speed-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll(".speed-toggle").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
         const speed = parseFloat(e.target.dataset.speed);
         this.setVideoSpeed(speed);
-        document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
+        document
+          .querySelectorAll(".speed-toggle")
+          .forEach((b) => b.classList.remove("active"));
+        e.target.classList.add("active");
       });
     });
 
@@ -384,7 +459,7 @@ class SweepBros {
     }
 
     // Load theme
-    const savedTheme = localStorage.getItem("sweepBrosTheme") || 'dark';
+    const savedTheme = localStorage.getItem("sweepBrosTheme") || "dark";
     this.setTheme(savedTheme, false);
 
     // Update UI from settings
@@ -560,10 +635,10 @@ class SweepBros {
       }
 
       await this.createOutputFolders();
-      
+
       // Offer to resume if there's saved progress
       await this.offerResumeSession();
-      
+
       this.openSorting();
       this.loadCurrentFile();
 
@@ -685,8 +760,9 @@ class SweepBros {
     this.currentDisplayIndex = this.currentIndex;
     while (this.currentDisplayIndex < this.files.length) {
       const file = this.files[this.currentDisplayIndex];
-      const isValid = (file.type === 'image' && this.showImages) ||
-                     (file.type === 'video' && this.showVideos);
+      const isValid =
+        (file.type === "image" && this.showImages) ||
+        (file.type === "video" && this.showVideos);
       if (isValid) break;
       this.currentDisplayIndex++;
     }
@@ -715,6 +791,7 @@ class SweepBros {
         this.previewVideo.pause();
         this.previewVideo.src = "";
         this.zoomControls.classList.remove("hidden");
+        this.zoomContainer.classList.remove("hidden"); // Ensure zoom container is visible
         this.videoControlsPanel.classList.add("hidden");
         this.resetZoom();
 
@@ -726,6 +803,7 @@ class SweepBros {
       } else {
         this.previewImage.classList.add("hidden");
         this.previewImage.src = "";
+        this.zoomContainer.classList.add("hidden"); // Hide zoom container for video
         this.zoomControls.classList.add("hidden");
         this.videoControlsPanel.classList.remove("hidden");
 
@@ -771,7 +849,7 @@ class SweepBros {
     // Update linear progress bar
     this.progressBarFill.style.width = `${progress}%`;
     this.progressPercent.textContent = `${Math.round(progress)}%`;
-    
+
     // Update filter counts
     this.updateFilterCounts();
   }
@@ -928,14 +1006,14 @@ class SweepBros {
       }
 
       this.currentIndex = lastAction.index;
-      
+
       // Refresh appropriate view
       if (this.batchMode) {
         await this.renderBatchGrid();
       } else {
         this.loadCurrentFile();
       }
-      
+
       this.showToast("Undo successful", "success");
     } catch (e) {
       console.error("Undo failed:", e);
@@ -957,10 +1035,10 @@ class SweepBros {
   showCompletion() {
     this.sortingModal.classList.add("hidden");
     this.completionModal.classList.remove("hidden");
-    
+
     // Stop auto-save and clear progress
     this.stopAutoSave();
-    localStorage.removeItem('sweepBrosProgress');
+    localStorage.removeItem("sweepBrosProgress");
 
     // Populate stats container
     if (this.statsContainer) {
@@ -1051,7 +1129,7 @@ class SweepBros {
   // ===== Batch Mode Operations =====
   toggleBatchMode() {
     this.batchMode = !this.batchMode;
-    
+
     if (this.batchMode) {
       this.enterBatchMode();
     } else {
@@ -1060,28 +1138,28 @@ class SweepBros {
   }
 
   async enterBatchMode() {
-    this.singlePreviewContainer.classList.add('hidden');
-    this.batchGridContainer.classList.remove('hidden');
-    this.batchModeBtn.classList.add('active');
-    
+    this.singlePreviewContainer.classList.add("hidden");
+    this.batchGridContainer.classList.remove("hidden");
+    this.batchModeBtn.classList.add("active");
+
     await this.renderBatchGrid();
     this.renderBatchFolders();
   }
 
   exitBatchMode() {
-    this.singlePreviewContainer.classList.remove('hidden');
-    this.batchGridContainer.classList.add('hidden');
-    this.batchModeBtn.classList.remove('active');
+    this.singlePreviewContainer.classList.remove("hidden");
+    this.batchGridContainer.classList.add("hidden");
+    this.batchModeBtn.classList.remove("active");
     this.selectedFiles.clear();
-    
+
     // Cleanup observer
     if (this.batchObserver) {
       this.batchObserver.disconnect();
       this.batchObserver = null;
     }
-    
+
     // Cleanup object URLs to free memory
-    document.querySelectorAll('.batch-grid-item').forEach(item => {
+    document.querySelectorAll(".batch-grid-item").forEach((item) => {
       const url = item.dataset.objectUrl;
       if (url) {
         URL.revokeObjectURL(url);
@@ -1091,77 +1169,87 @@ class SweepBros {
   }
 
   async renderBatchGrid() {
-    this.batchGrid.innerHTML = '';
-    
+    this.batchGrid.innerHTML = "";
+
     // Get remaining files (not yet sorted) and filter by active file types
-    const remainingFiles = this.files.slice(this.currentIndex).filter(file => {
-      return (file.type === 'image' && this.showImages) ||
-             (file.type === 'video' && this.showVideos);
-    });
-    
-    // Create intersection observer for lazy loading with optimized settings
-    const observer = new IntersectionObserver((entries) => {
-      // Batch DOM reads and writes for better performance
-      requestAnimationFrame(() => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const gridItem = entry.target;
-            const fileName = gridItem.dataset.fileName;
-            const file = remainingFiles.find(f => f.name === fileName);
-            
-            if (file && !gridItem.dataset.loaded) {
-              gridItem.dataset.loaded = 'true';
-              const preview = gridItem.querySelector('.batch-item-preview');
-              const skeleton = gridItem.querySelector('.batch-item-skeleton');
-              this.loadBatchThumbnail(file, preview, skeleton, gridItem);
-              observer.unobserve(gridItem);
-            }
-          }
-        });
+    const remainingFiles = this.files
+      .slice(this.currentIndex)
+      .filter((file) => {
+        return (
+          (file.type === "image" && this.showImages) ||
+          (file.type === "video" && this.showVideos)
+        );
       });
-    }, {
-      root: this.batchGrid,
-      rootMargin: '400px',
-      threshold: 0
-    });
-    
+
+    // Create intersection observer for lazy loading with optimized settings
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Batch DOM reads and writes for better performance
+        requestAnimationFrame(() => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const gridItem = entry.target;
+              const fileName = gridItem.dataset.fileName;
+              const file = remainingFiles.find((f) => f.name === fileName);
+
+              if (file && !gridItem.dataset.loaded) {
+                gridItem.dataset.loaded = "true";
+                const preview = gridItem.querySelector(".batch-item-preview");
+                const skeleton = gridItem.querySelector(".batch-item-skeleton");
+                this.loadBatchThumbnail(file, preview, skeleton, gridItem);
+                observer.unobserve(gridItem);
+              }
+            }
+          });
+        });
+      },
+      {
+        root: this.batchGrid,
+        rootMargin: "400px",
+        threshold: 0,
+      },
+    );
+
     // Create grid items with placeholders
     for (const file of remainingFiles) {
-      const gridItem = document.createElement('div');
-      gridItem.className = 'batch-grid-item';
+      const gridItem = document.createElement("div");
+      gridItem.className = "batch-grid-item";
       gridItem.dataset.fileName = file.name;
-      
+
       // Add skeleton loader
-      const skeleton = document.createElement('div');
-      skeleton.className = 'batch-item-skeleton';
+      const skeleton = document.createElement("div");
+      skeleton.className = "batch-item-skeleton";
       gridItem.appendChild(skeleton);
-      
+
       // Checkbox
-      const checkbox = document.createElement('div');
-      checkbox.className = 'batch-checkbox';
-      checkbox.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+      const checkbox = document.createElement("div");
+      checkbox.className = "batch-checkbox";
+      checkbox.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
       gridItem.appendChild(checkbox);
-      
+
       // Preview container (empty initially)
-      const preview = document.createElement('div');
-      preview.className = 'batch-item-preview';
+      const preview = document.createElement("div");
+      preview.className = "batch-item-preview";
       gridItem.appendChild(preview);
-      
+
       // Filename
-      const filename = document.createElement('div');
-      filename.className = 'batch-item-name';
+      const filename = document.createElement("div");
+      filename.className = "batch-item-name";
       filename.textContent = file.name;
       filename.title = file.name;
       gridItem.appendChild(filename);
-      
-      gridItem.addEventListener('click', () => this.toggleFileSelection(file.name, gridItem));
-      
+
+      gridItem.addEventListener("click", () =>
+        this.toggleFileSelection(file.name, gridItem),
+      );
+
       this.batchGrid.appendChild(gridItem);
-      
+
       // Observe for lazy loading
       observer.observe(gridItem);
     }
-    
+
     // Store observer for cleanup
     this.batchObserver = observer;
   }
@@ -1171,12 +1259,12 @@ class SweepBros {
       const fileHandle = file.handle;
       const fileData = await fileHandle.getFile();
       const url = URL.createObjectURL(fileData);
-      
-      if (file.type === 'image') {
-        const img = document.createElement('img');
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        
+
+      if (file.type === "image") {
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.decoding = "async";
+
         img.onload = async () => {
           // Use decode() for smoother rendering
           try {
@@ -1195,13 +1283,13 @@ class SweepBros {
           previewContainer.innerHTML = '<div class="batch-error">⚠️</div>';
         };
         img.src = url;
-        
+
         // Append image after setting src for better performance
         previewContainer.appendChild(img);
       } else {
-        const video = document.createElement('video');
-        video.preload = 'metadata';
-        
+        const video = document.createElement("video");
+        video.preload = "metadata";
+
         video.onloadeddata = () => {
           if (skeleton && skeleton.parentNode) {
             skeleton.remove();
@@ -1214,11 +1302,11 @@ class SweepBros {
           previewContainer.innerHTML = '<div class="batch-error">⚠️</div>';
         };
         video.src = url;
-        
+
         // Append video after setting src for better performance
         previewContainer.appendChild(video);
       }
-      
+
       // Store URL for cleanup
       if (!gridItem.dataset.objectUrl) {
         gridItem.dataset.objectUrl = url;
@@ -1234,35 +1322,35 @@ class SweepBros {
   toggleFileSelection(fileName, gridItem) {
     if (this.selectedFiles.has(fileName)) {
       this.selectedFiles.delete(fileName);
-      gridItem.classList.remove('selected');
+      gridItem.classList.remove("selected");
     } else {
       this.selectedFiles.add(fileName);
-      gridItem.classList.add('selected');
+      gridItem.classList.add("selected");
     }
-    
+
     this.updateSelectedCount();
   }
 
   selectAll() {
     const remainingFiles = this.files.slice(this.currentIndex);
-    remainingFiles.forEach(file => {
+    remainingFiles.forEach((file) => {
       this.selectedFiles.add(file.name);
     });
-    
-    document.querySelectorAll('.batch-grid-item').forEach(item => {
-      item.classList.add('selected');
+
+    document.querySelectorAll(".batch-grid-item").forEach((item) => {
+      item.classList.add("selected");
     });
-    
+
     this.updateSelectedCount();
   }
 
   deselectAll() {
     this.selectedFiles.clear();
-    
-    document.querySelectorAll('.batch-grid-item').forEach(item => {
-      item.classList.remove('selected');
+
+    document.querySelectorAll(".batch-grid-item").forEach((item) => {
+      item.classList.remove("selected");
     });
-    
+
     this.updateSelectedCount();
   }
 
@@ -1271,92 +1359,107 @@ class SweepBros {
   }
 
   renderBatchFolders() {
-    this.batchFolderList.innerHTML = '';
-    
-    this.settings.folderBindings.forEach(binding => {
+    this.batchFolderList.innerHTML = "";
+
+    this.settings.folderBindings.forEach((binding) => {
       if (!binding.folderName) return;
-      
-      const btn = document.createElement('button');
-      btn.className = 'batch-folder-btn';
+
+      const btn = document.createElement("button");
+      btn.className = "batch-folder-btn";
       btn.innerHTML = `
         <span>${binding.folderName}</span>
         <kbd>${binding.key}</kbd>
       `;
-      btn.addEventListener('click', () => this.moveBatchToFolder(binding.folderName));
-      
+      btn.addEventListener("click", () =>
+        this.moveBatchToFolder(binding.folderName),
+      );
+
       this.batchFolderList.appendChild(btn);
     });
   }
 
   async moveBatchToFolder(folderName) {
     if (this.selectedFiles.size === 0) {
-      this.showToast('No files selected', 'warning');
+      this.showToast("No files selected", "warning");
       return;
     }
 
     try {
-      const folderHandle = await this.directoryHandle.getDirectoryHandle(folderName, { create: true });
+      const folderHandle = await this.directoryHandle.getDirectoryHandle(
+        folderName,
+        { create: true },
+      );
       const selectedArray = Array.from(this.selectedFiles);
-      
-      this.showToast(`Moving ${selectedArray.length} files to ${folderName}...`, 'info');
-      
+
+      this.showToast(
+        `Moving ${selectedArray.length} files to ${folderName}...`,
+        "info",
+      );
+
       for (const fileName of selectedArray) {
-        const fileIndex = this.files.findIndex(f => f.name === fileName);
+        const fileIndex = this.files.findIndex((f) => f.name === fileName);
         if (fileIndex < this.currentIndex) continue; // Already processed
-        
+
         const file = this.files[fileIndex];
-        
+
         let targetName = null;
         if (this.settings.autoRename) {
-          const ext = file.name.split('.').pop();
+          const ext = file.name.split(".").pop();
           const baseName = file.name.slice(0, -(ext.length + 1));
           targetName = `${baseName}_${folderName}.${ext}`;
         }
-        
+
         await this.moveFile(file.handle, folderHandle, targetName);
-        
+
         // Update stats
         this.updateFolderStats(folderName, 1);
-        
+
         // Remove from UI
-        const gridItem = this.batchGrid.querySelector(`[data-file-name="${fileName}"]`);
+        const gridItem = this.batchGrid.querySelector(
+          `[data-file-name="${fileName}"]`,
+        );
         if (gridItem) gridItem.remove();
       }
-      
+
       // Clear selection
       this.selectedFiles.clear();
       this.updateSelectedCount();
-      
+
       // Update current index (skip moved files)
-      while (this.currentIndex < this.files.length && 
-             selectedArray.includes(this.files[this.currentIndex].name)) {
+      while (
+        this.currentIndex < this.files.length &&
+        selectedArray.includes(this.files[this.currentIndex].name)
+      ) {
         this.currentIndex++;
       }
-      
+
       this.updateProgress();
-      this.showToast(`Moved ${selectedArray.length} files successfully`, 'success');
-      
+      this.showToast(
+        `Moved ${selectedArray.length} files successfully`,
+        "success",
+      );
+
       // Check if all files processed
       if (this.currentIndex >= this.files.length) {
         this.showCompletion();
       }
     } catch (e) {
-      console.error('Batch move failed:', e);
-      this.showToast('Failed to move files', 'error');
+      console.error("Batch move failed:", e);
+      this.showToast("Failed to move files", "error");
     }
   }
 
   // ===== Auto-Save Progress =====
   startAutoSave() {
     this.stopAutoSave(); // Clear any existing interval
-    
+
     // Save every 30 seconds
     this.autoSaveInterval = setInterval(() => {
       this.saveProgress();
     }, 30000);
-    
+
     // Also save on page unload
-    window.addEventListener('beforeunload', () => this.saveProgress());
+    window.addEventListener("beforeunload", () => this.saveProgress());
   }
 
   stopAutoSave() {
@@ -1375,89 +1478,89 @@ class SweepBros {
         keptCount: this.keptFiles.length,
         deletedCount: this.deletedFiles.length,
         skippedCount: this.skippedFiles.length,
-        folderStats: this.folderStats || {}
+        folderStats: this.folderStats || {},
       };
-      
-      localStorage.setItem('sweepBrosProgress', JSON.stringify(progress));
-      console.log('Progress saved:', progress);
+
+      localStorage.setItem("sweepBrosProgress", JSON.stringify(progress));
+      console.log("Progress saved:", progress);
     } catch (e) {
-      console.error('Failed to save progress:', e);
+      console.error("Failed to save progress:", e);
     }
   }
 
   loadProgress() {
     try {
-      const saved = localStorage.getItem('sweepBrosProgress');
+      const saved = localStorage.getItem("sweepBrosProgress");
       if (!saved) return null;
-      
+
       const progress = JSON.parse(saved);
-      
+
       // Check if progress is recent (within 24 hours)
       const age = Date.now() - progress.timestamp;
       if (age > 24 * 60 * 60 * 1000) {
-        localStorage.removeItem('sweepBrosProgress');
+        localStorage.removeItem("sweepBrosProgress");
         return null;
       }
-      
+
       return progress;
     } catch (e) {
-      console.error('Failed to load progress:', e);
+      console.error("Failed to load progress:", e);
       return null;
     }
   }
 
   async offerResumeSession() {
     const progress = this.loadProgress();
-    
+
     if (progress && progress.currentIndex > 0) {
       const resume = confirm(
         `Resume previous session?\n\n` +
-        `Progress: ${progress.currentIndex} of ${progress.totalFiles} files processed\n` +
-        `Kept: ${progress.keptCount}, Deleted: ${progress.deletedCount}, Skipped: ${progress.skippedCount}`
+          `Progress: ${progress.currentIndex} of ${progress.totalFiles} files processed\n` +
+          `Kept: ${progress.keptCount}, Deleted: ${progress.deletedCount}, Skipped: ${progress.skippedCount}`,
       );
-      
+
       if (resume) {
         this.currentIndex = progress.currentIndex;
         this.folderStats = progress.folderStats || {};
-        this.showToast('Session resumed', 'success');
+        this.showToast("Session resumed", "success");
         return true;
       } else {
-        localStorage.removeItem('sweepBrosProgress');
+        localStorage.removeItem("sweepBrosProgress");
       }
     }
-    
+
     return false;
   }
 
   // ===== Theme Management =====
   toggleTheme() {
-    const newTheme = this.theme === 'dark' ? 'light' : 'dark';
+    const newTheme = this.theme === "dark" ? "light" : "dark";
     this.setTheme(newTheme, true);
   }
 
   setTheme(theme, save = true) {
     this.theme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    
+    document.documentElement.setAttribute("data-theme", theme);
+
     if (this.themeIconDark && this.themeIconLight) {
-      if (theme === 'light') {
-        this.themeIconDark.classList.add('hidden');
-        this.themeIconLight.classList.remove('hidden');
+      if (theme === "light") {
+        this.themeIconDark.classList.add("hidden");
+        this.themeIconLight.classList.remove("hidden");
       } else {
-        this.themeIconDark.classList.remove('hidden');
-        this.themeIconLight.classList.add('hidden');
+        this.themeIconDark.classList.remove("hidden");
+        this.themeIconLight.classList.add("hidden");
       }
     }
-    
+
     if (save) {
-      localStorage.setItem('sweepBrosTheme', theme);
-      this.showToast(`Switched to ${theme} theme`, 'success');
+      localStorage.setItem("sweepBrosTheme", theme);
+      this.showToast(`Switched to ${theme} theme`, "success");
     }
   }
 
   // ===== Metadata Display =====
   toggleMetadata() {
-    if (this.metadataPanel.classList.contains('hidden')) {
+    if (this.metadataPanel.classList.contains("hidden")) {
       this.showMetadata();
     } else {
       this.hideMetadata();
@@ -1465,56 +1568,59 @@ class SweepBros {
   }
 
   async showMetadata() {
-    this.metadataPanel.classList.remove('hidden');
-    this.showMetadataBtn?.classList.add('active');
+    this.metadataPanel.classList.remove("hidden");
+    this.showMetadataBtn?.classList.add("active");
     // Add class to preview wrapper for layout adjustment
-    const previewWrapper = document.querySelector('.preview-wrapper');
-    if (previewWrapper) previewWrapper.classList.add('metadata-open');
+    const previewWrapper = document.querySelector(".preview-wrapper");
+    if (previewWrapper) previewWrapper.classList.add("metadata-open");
     await this.loadMetadata();
   }
 
   hideMetadata() {
-    this.metadataPanel.classList.add('hidden');
-    this.showMetadataBtn?.classList.remove('active');
+    this.metadataPanel.classList.add("hidden");
+    this.showMetadataBtn?.classList.remove("active");
     // Remove class from preview wrapper
-    const previewWrapper = document.querySelector('.preview-wrapper');
-    if (previewWrapper) previewWrapper.classList.remove('metadata-open');
+    const previewWrapper = document.querySelector(".preview-wrapper");
+    if (previewWrapper) previewWrapper.classList.remove("metadata-open");
   }
 
   async loadMetadata() {
     if (this.currentIndex >= this.files.length) return;
-    
+
     const file = this.files[this.currentIndex];
-    
+
     try {
       const fileData = await file.handle.getFile();
-      
+
       // Basic metadata
       this.metaFileSize.textContent = this.formatFileSize(fileData.size);
-      this.metaType.textContent = file.type.charAt(0).toUpperCase() + file.type.slice(1);
-      this.metaDate.textContent = new Date(fileData.lastModified).toLocaleString();
-      
+      this.metaType.textContent =
+        file.type.charAt(0).toUpperCase() + file.type.slice(1);
+      this.metaDate.textContent = new Date(
+        fileData.lastModified,
+      ).toLocaleString();
+
       // Resolution and EXIF data for images
-      if (file.type === 'image') {
+      if (file.type === "image") {
         await this.loadImageMetadata(fileData);
-      } else if (file.type === 'video') {
+      } else if (file.type === "video") {
         await this.loadVideoMetadata(fileData);
       }
     } catch (e) {
-      console.error('Failed to load metadata:', e);
-      this.metaResolution.textContent = 'Error loading';
-      this.metaCamera.textContent = '-';
+      console.error("Failed to load metadata:", e);
+      this.metaResolution.textContent = "Error loading";
+      this.metaCamera.textContent = "-";
     }
   }
 
   async loadImageMetadata(fileData) {
     const img = new Image();
     const url = URL.createObjectURL(fileData);
-    
+
     img.onload = async () => {
       this.metaResolution.textContent = `${img.width} × ${img.height}`;
       URL.revokeObjectURL(url);
-      
+
       // Try to extract EXIF data
       try {
         const exifData = await this.extractEXIF(fileData);
@@ -1522,33 +1628,33 @@ class SweepBros {
           if (exifData.Make && exifData.Model) {
             this.metaCamera.textContent = `${exifData.Make} ${exifData.Model}`;
           } else {
-            this.metaCamera.textContent = '-';
+            this.metaCamera.textContent = "-";
           }
-          
+
           if (exifData.DateTimeOriginal) {
             this.metaDate.textContent = exifData.DateTimeOriginal;
           }
         } else {
-          this.metaCamera.textContent = '-';
+          this.metaCamera.textContent = "-";
         }
       } catch (e) {
-        this.metaCamera.textContent = '-';
+        this.metaCamera.textContent = "-";
       }
     };
-    
+
     img.src = url;
   }
 
   async loadVideoMetadata(fileData) {
-    const video = document.createElement('video');
+    const video = document.createElement("video");
     const url = URL.createObjectURL(fileData);
-    
+
     video.onloadedmetadata = () => {
       this.metaResolution.textContent = `${video.videoWidth} × ${video.videoHeight}`;
-      this.metaCamera.textContent = '-';
+      this.metaCamera.textContent = "-";
       URL.revokeObjectURL(url);
     };
-    
+
     video.src = url;
   }
 
@@ -1558,12 +1664,12 @@ class SweepBros {
     try {
       const arrayBuffer = await file.arrayBuffer();
       const view = new DataView(arrayBuffer);
-      
+
       // Check for JPEG marker
-      if (view.getUint16(0, false) !== 0xFFD8) {
+      if (view.getUint16(0, false) !== 0xffd8) {
         return null;
       }
-      
+
       // This is a simplified EXIF parser
       // For production, use a proper EXIF library
       return null; // Placeholder
@@ -1573,16 +1679,16 @@ class SweepBros {
   }
 
   formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   }
 
   // ===== Video Enhancements =====
   setVideoSpeed(speed) {
-    if (this.previewVideo && !this.previewVideo.classList.contains('hidden')) {
+    if (this.previewVideo && !this.previewVideo.classList.contains("hidden")) {
       this.previewVideo.playbackRate = speed;
     }
   }
@@ -1591,92 +1697,92 @@ class SweepBros {
     // This creates a canvas-based thumbnail preview on hover
     // For simplicity, we'll show current time on hover
     const video = this.previewVideo;
-    
-    video.addEventListener('mousemove', (e) => {
+
+    video.addEventListener("mousemove", (e) => {
       if (!video.duration) return;
-      
+
       const rect = video.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const percent = x / rect.width;
       const time = percent * video.duration;
-      
+
       // Show time tooltip
       this.showVideoTimeTooltip(e.clientX, e.clientY, time);
     });
-    
-    video.addEventListener('mouseleave', () => {
+
+    video.addEventListener("mouseleave", () => {
       this.hideVideoTimeTooltip();
     });
   }
 
   showVideoTimeTooltip(x, y, time) {
-    let tooltip = document.getElementById('videoTimeTooltip');
+    let tooltip = document.getElementById("videoTimeTooltip");
     if (!tooltip) {
-      tooltip = document.createElement('div');
-      tooltip.id = 'videoTimeTooltip';
-      tooltip.className = 'video-time-tooltip';
+      tooltip = document.createElement("div");
+      tooltip.id = "videoTimeTooltip";
+      tooltip.className = "video-time-tooltip";
       document.body.appendChild(tooltip);
     }
-    
+
     tooltip.textContent = this.formatTime(time);
-    tooltip.style.left = x + 'px';
-    tooltip.style.top = (y - 40) + 'px';
-    tooltip.style.display = 'block';
+    tooltip.style.left = x + "px";
+    tooltip.style.top = y - 40 + "px";
+    tooltip.style.display = "block";
   }
 
   hideVideoTimeTooltip() {
-    const tooltip = document.getElementById('videoTimeTooltip');
+    const tooltip = document.getElementById("videoTimeTooltip");
     if (tooltip) {
-      tooltip.style.display = 'none';
+      tooltip.style.display = "none";
     }
   }
 
   formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
 
   // ===== Smart Sorting Suggestions =====
   async showSuggestions() {
     if (this.currentIndex >= this.files.length) return;
-    
+
     const file = this.files[this.currentIndex];
     const suggestions = await this.generateSuggestions(file);
-    
+
     if (suggestions.length > 0) {
-      this.suggestionsPanel.classList.remove('hidden');
+      this.suggestionsPanel.classList.remove("hidden");
       this.renderSuggestions(suggestions);
     } else {
-      this.suggestionsPanel.classList.add('hidden');
+      this.suggestionsPanel.classList.add("hidden");
     }
   }
 
   async generateSuggestions(file) {
     const suggestions = [];
-    
+
     try {
       const fileData = await file.handle.getFile();
       const fileName = file.name.toLowerCase();
       const fileDate = new Date(fileData.lastModified);
-      
+
       // Date-based suggestions
       const year = fileDate.getFullYear();
-      const month = fileDate.toLocaleString('default', { month: 'long' });
-      
+      const month = fileDate.toLocaleString("default", { month: "long" });
+
       // Check for year folder in bindings
-      const yearBinding = this.settings.folderBindings.find(b => 
-        b.folderName && b.folderName.includes(year.toString())
+      const yearBinding = this.settings.folderBindings.find(
+        (b) => b.folderName && b.folderName.includes(year.toString()),
       );
       if (yearBinding) {
         suggestions.push({
           folder: yearBinding.folderName,
           key: yearBinding.key,
           reason: `File from ${year}`,
-          confidence: 'high'
+          confidence: "high",
         });
       }
-      
+
       // Pattern-based suggestions
       const patterns = {
         screenshot: /screenshot|screen|capture/i,
@@ -1684,69 +1790,69 @@ class SweepBros {
         video: /vid|movie|clip|rec/i,
         download: /download|dl/i,
         work: /work|doc|project/i,
-        personal: /personal|private|family/i
+        personal: /personal|private|family/i,
       };
-      
+
       for (const [pattern, regex] of Object.entries(patterns)) {
         if (regex.test(fileName)) {
-          const binding = this.settings.folderBindings.find(b => 
-            b.folderName && b.folderName.toLowerCase().includes(pattern)
+          const binding = this.settings.folderBindings.find(
+            (b) => b.folderName && b.folderName.toLowerCase().includes(pattern),
           );
           if (binding) {
             suggestions.push({
               folder: binding.folderName,
               key: binding.key,
               reason: `Filename pattern: ${pattern}`,
-              confidence: 'medium'
+              confidence: "medium",
             });
           }
         }
       }
-      
+
       // File type suggestions
-      if (file.type === 'video') {
-        const videoBinding = this.settings.folderBindings.find(b => 
-          b.folderName && /video|movie|clip/i.test(b.folderName)
+      if (file.type === "video") {
+        const videoBinding = this.settings.folderBindings.find(
+          (b) => b.folderName && /video|movie|clip/i.test(b.folderName),
         );
         if (videoBinding) {
           suggestions.push({
             folder: videoBinding.folderName,
             key: videoBinding.key,
-            reason: 'Video file',
-            confidence: 'low'
+            reason: "Video file",
+            confidence: "low",
           });
         }
       } else {
-        const photoBinding = this.settings.folderBindings.find(b => 
-          b.folderName && /photo|image|pic/i.test(b.folderName)
+        const photoBinding = this.settings.folderBindings.find(
+          (b) => b.folderName && /photo|image|pic/i.test(b.folderName),
         );
         if (photoBinding) {
           suggestions.push({
             folder: photoBinding.folderName,
             key: photoBinding.key,
-            reason: 'Image file',
-            confidence: 'low'
+            reason: "Image file",
+            confidence: "low",
           });
         }
       }
-      
+
       // Remove duplicates and limit to top 3
-      const uniqueSuggestions = suggestions.filter((s, i, arr) => 
-        arr.findIndex(x => x.folder === s.folder) === i
+      const uniqueSuggestions = suggestions.filter(
+        (s, i, arr) => arr.findIndex((x) => x.folder === s.folder) === i,
       );
-      
+
       return uniqueSuggestions.slice(0, 3);
     } catch (e) {
-      console.error('Failed to generate suggestions:', e);
+      console.error("Failed to generate suggestions:", e);
       return [];
     }
   }
 
   renderSuggestions(suggestions) {
-    this.suggestionsList.innerHTML = '';
-    
-    suggestions.forEach(suggestion => {
-      const item = document.createElement('div');
+    this.suggestionsList.innerHTML = "";
+
+    suggestions.forEach((suggestion) => {
+      const item = document.createElement("div");
       item.className = `suggestion-item confidence-${suggestion.confidence}`;
       item.innerHTML = `
         <div class="suggestion-info">
@@ -1755,16 +1861,16 @@ class SweepBros {
         </div>
         <kbd class="suggestion-key">${suggestion.key}</kbd>
       `;
-      
-      item.addEventListener('click', () => {
+
+      item.addEventListener("click", () => {
         const bindingIndex = this.settings.folderBindings.findIndex(
-          b => b.folderName === suggestion.folder
+          (b) => b.folderName === suggestion.folder,
         );
         if (bindingIndex !== -1) {
           this.processFolderBinding(bindingIndex);
         }
       });
-      
+
       this.suggestionsList.appendChild(item);
     });
   }
@@ -1772,27 +1878,34 @@ class SweepBros {
   // ===== Duplicate Detection =====
   async checkForDuplicates() {
     if (this.currentIndex >= this.files.length) return;
-    
+
     const file = this.files[this.currentIndex];
-    
+
     try {
       const fileData = await file.handle.getFile();
       const duplicates = [];
-      
+
       // Check by name
-      const sameNameFiles = this.files.filter((f, idx) => 
-        idx !== this.currentIndex && f.name === file.name
+      const sameNameFiles = this.files.filter(
+        (f, idx) => idx !== this.currentIndex && f.name === file.name,
       );
       if (sameNameFiles.length > 0) {
-        duplicates.push(`Same filename found (${sameNameFiles.length} match${sameNameFiles.length > 1 ? 'es' : ''})`);
+        duplicates.push(
+          `Same filename found (${sameNameFiles.length} match${sameNameFiles.length > 1 ? "es" : ""})`,
+        );
       }
-      
+
       // Check by size
-      const sameSizeFiles = await this.findFilesBySize(fileData.size, this.currentIndex);
+      const sameSizeFiles = await this.findFilesBySize(
+        fileData.size,
+        this.currentIndex,
+      );
       if (sameSizeFiles.length > 0) {
-        duplicates.push(`Same file size: ${this.formatFileSize(fileData.size)}`);
+        duplicates.push(
+          `Same file size: ${this.formatFileSize(fileData.size)}`,
+        );
       }
-      
+
       // Simple hash check (using size + first/last bytes as quick hash)
       const hash = await this.quickHash(fileData);
       if (this.fileHashes.has(hash)) {
@@ -1803,14 +1916,14 @@ class SweepBros {
       } else {
         this.fileHashes.set(hash, file.name);
       }
-      
+
       if (duplicates.length > 0) {
         this.showDuplicateWarning(duplicates);
       } else {
         this.hideDuplicateWarning();
       }
     } catch (e) {
-      console.error('Duplicate check failed:', e);
+      console.error("Duplicate check failed:", e);
       this.hideDuplicateWarning();
     }
   }
@@ -1836,12 +1949,13 @@ class SweepBros {
     try {
       const size = file.size;
       const chunkSize = Math.min(1024, size);
-      
+
       const start = await file.slice(0, chunkSize).arrayBuffer();
-      const end = size > chunkSize ? 
-        await file.slice(size - chunkSize, size).arrayBuffer() : 
-        start;
-      
+      const end =
+        size > chunkSize
+          ? await file.slice(size - chunkSize, size).arrayBuffer()
+          : start;
+
       // Simple hash combination
       const hash = `${size}-${this.arrayBufferToHex(start, 8)}-${this.arrayBufferToHex(end, 8)}`;
       return hash;
@@ -1853,105 +1967,105 @@ class SweepBros {
   arrayBufferToHex(buffer, maxBytes = 8) {
     const bytes = new Uint8Array(buffer);
     const limit = Math.min(maxBytes, bytes.length);
-    let hex = '';
+    let hex = "";
     for (let i = 0; i < limit; i++) {
-      hex += bytes[i].toString(16).padStart(2, '0');
+      hex += bytes[i].toString(16).padStart(2, "0");
     }
     return hex;
   }
 
   showDuplicateWarning(duplicates) {
-    this.duplicateWarning.classList.remove('hidden');
-    this.duplicateMessage.innerHTML = duplicates.map(d => 
-      `<div>• ${d}</div>`
-    ).join('');
+    this.duplicateWarning.classList.remove("hidden");
+    this.duplicateMessage.innerHTML = duplicates
+      .map((d) => `<div>• ${d}</div>`)
+      .join("");
   }
 
   hideDuplicateWarning() {
-    this.duplicateWarning.classList.add('hidden');
+    this.duplicateWarning.classList.add("hidden");
   }
 
   // ===== File Type Filtering =====
   toggleImageFilter() {
     this.showImages = !this.showImages;
-    this.filterImages.classList.toggle('active');
-    this.filterImages.classList.add('changed');
-    setTimeout(() => this.filterImages.classList.remove('changed'), 300);
-    
+    this.filterImages.classList.toggle("active");
+    this.filterImages.classList.add("changed");
+    setTimeout(() => this.filterImages.classList.remove("changed"), 300);
+
     if (!this.showImages && !this.showVideos) {
       // At least one must be active
       this.showImages = true;
-      this.filterImages.classList.add('active');
-      this.showToast('At least one file type must be visible', 'warning');
+      this.filterImages.classList.add("active");
+      this.showToast("At least one file type must be visible", "warning");
       return;
     }
-    
+
     this.updateFilterCounts();
     this.skipToNextValidFile();
-    this.showToast(`Images ${this.showImages ? 'shown' : 'hidden'}`, 'info');
+    this.showToast(`Images ${this.showImages ? "shown" : "hidden"}`, "info");
   }
 
   toggleVideoFilter() {
     this.showVideos = !this.showVideos;
-    this.filterVideos.classList.toggle('active');
-    this.filterVideos.classList.add('changed');
-    setTimeout(() => this.filterVideos.classList.remove('changed'), 300);
-    
+    this.filterVideos.classList.toggle("active");
+    this.filterVideos.classList.add("changed");
+    setTimeout(() => this.filterVideos.classList.remove("changed"), 300);
+
     if (!this.showImages && !this.showVideos) {
       // At least one must be active
       this.showVideos = true;
-      this.filterVideos.classList.add('active');
-      this.showToast('At least one file type must be visible', 'warning');
+      this.filterVideos.classList.add("active");
+      this.showToast("At least one file type must be visible", "warning");
       return;
     }
-    
+
     this.updateFilterCounts();
     this.skipToNextValidFile();
-    this.showToast(`Videos ${this.showVideos ? 'shown' : 'hidden'}`, 'info');
+    this.showToast(`Videos ${this.showVideos ? "shown" : "hidden"}`, "info");
   }
 
   showAllFilters() {
     const wasChanged = !this.showImages || !this.showVideos;
-    
+
     this.showImages = true;
     this.showVideos = true;
-    
-    this.filterImages.classList.add('active', 'changed');
-    this.filterVideos.classList.add('active', 'changed');
-    
+
+    this.filterImages.classList.add("active", "changed");
+    this.filterVideos.classList.add("active", "changed");
+
     setTimeout(() => {
-      this.filterImages.classList.remove('changed');
-      this.filterVideos.classList.remove('changed');
+      this.filterImages.classList.remove("changed");
+      this.filterVideos.classList.remove("changed");
     }, 300);
-    
+
     if (wasChanged) {
       this.updateFilterCounts();
       this.loadCurrentFile();
-      this.showToast('Showing all file types', 'success');
+      this.showToast("Showing all file types", "success");
     }
   }
 
   updateFilterCounts() {
     if (!this.files || this.files.length === 0) {
-      if (this.imageCount) this.imageCount.textContent = '0';
-      if (this.videoCount) this.videoCount.textContent = '0';
+      if (this.imageCount) this.imageCount.textContent = "0";
+      if (this.videoCount) this.videoCount.textContent = "0";
       return;
     }
-    
+
     const remaining = this.files.slice(this.currentIndex);
-    const imageCount = remaining.filter(f => f.type === 'image').length;
-    const videoCount = remaining.filter(f => f.type === 'video').length;
-    
+    const imageCount = remaining.filter((f) => f.type === "image").length;
+    const videoCount = remaining.filter((f) => f.type === "video").length;
+
     if (this.imageCount) {
       this.imageCount.textContent = imageCount.toString();
-      this.imageCount.style.transform = 'scale(1.2)';
-      setTimeout(() => this.imageCount.style.transform = 'scale(1)', 200);
+      this.imageCount.style.transform = "scale(1.2)";
+      setTimeout(() => (this.imageCount.style.transform = "scale(1)"), 200);
     }
-    
+
     if (this.videoCount) {
       this.videoCount.textContent = videoCount.toString();
-      this.videoCount.style.transform = 'scale(1.2)';
-      setTimeout(() => this.videoCount.style.transform = 'scale(1)', 200);
+      this.videoCount.style.transform = "scale(1.2)";
+      setTimeout(() => (this.videoCount.style.transform = "scale(1)"), 200);
     }
   }
 
@@ -1984,7 +2098,7 @@ class SweepBros {
   }
 
   handleZoomWheel(e) {
-    if (!this.previewImage.classList.contains('hidden')) {
+    if (!this.previewImage.classList.contains("hidden")) {
       e.preventDefault();
       const delta = e.deltaY > 0 ? -0.1 : 0.1;
       this.currentZoom = Math.max(0.5, Math.min(5, this.currentZoom + delta));
@@ -1993,23 +2107,28 @@ class SweepBros {
   }
 
   updateZoom() {
-    this.previewImage.style.transform = 
-      `scale(${this.currentZoom}) translate(${this.panOffset.x}px, ${this.panOffset.y}px)`;
+    this.previewImage.style.transform = `scale(${this.currentZoom}) translate(${this.panOffset.x}px, ${this.panOffset.y}px)`;
     this.zoomLevel.textContent = `${Math.round(this.currentZoom * 100)}%`;
-    
+
     if (this.currentZoom > 1) {
-      this.zoomContainer.style.cursor = 'move';
+      this.zoomContainer.style.cursor = "move";
     } else {
-      this.zoomContainer.style.cursor = 'default';
+      this.zoomContainer.style.cursor = "default";
       this.panOffset = { x: 0, y: 0 };
     }
   }
 
   startPan(e) {
-    if (this.currentZoom > 1 && !this.previewImage.classList.contains('hidden')) {
+    if (
+      this.currentZoom > 1 &&
+      !this.previewImage.classList.contains("hidden")
+    ) {
       this.isPanning = true;
-      this.panStart = { x: e.clientX - this.panOffset.x, y: e.clientY - this.panOffset.y };
-      this.zoomContainer.style.cursor = 'grabbing';
+      this.panStart = {
+        x: e.clientX - this.panOffset.x,
+        y: e.clientY - this.panOffset.y,
+      };
+      this.zoomContainer.style.cursor = "grabbing";
     }
   }
 
@@ -2017,7 +2136,7 @@ class SweepBros {
     if (this.isPanning) {
       this.panOffset = {
         x: e.clientX - this.panStart.x,
-        y: e.clientY - this.panStart.y
+        y: e.clientY - this.panStart.y,
       };
       this.updateZoom();
     }
@@ -2026,7 +2145,7 @@ class SweepBros {
   endPan() {
     this.isPanning = false;
     if (this.currentZoom > 1) {
-      this.zoomContainer.style.cursor = 'move';
+      this.zoomContainer.style.cursor = "move";
     }
   }
 
@@ -2123,13 +2242,13 @@ class SweepBros {
     if (this.sortingModal.classList.contains("hidden")) return;
 
     // Zoom controls for images
-    if (!this.previewImage.classList.contains('hidden')) {
-      if (e.key === '+' || e.key === '=') {
+    if (!this.previewImage.classList.contains("hidden")) {
+      if (e.key === "+" || e.key === "=") {
         e.preventDefault();
         this.zoomIn();
         return;
       }
-      if (e.key === '-' || e.key === '_') {
+      if (e.key === "-" || e.key === "_") {
         e.preventDefault();
         this.zoomOut();
         return;
@@ -2137,28 +2256,28 @@ class SweepBros {
     }
 
     // Toggle metadata with 'I' key
-    if (e.key === 'i' || e.key === 'I') {
+    if (e.key === "i" || e.key === "I") {
       e.preventDefault();
       this.toggleMetadata();
       return;
     }
 
     // Toggle image filter with 'M' key
-    if (e.key === 'm' || e.key === 'M') {
+    if (e.key === "m" || e.key === "M") {
       e.preventDefault();
       this.toggleImageFilter();
       return;
     }
 
     // Toggle video filter with 'V' key
-    if (e.key === 'v' || e.key === 'V') {
+    if (e.key === "v" || e.key === "V") {
       e.preventDefault();
       this.toggleVideoFilter();
       return;
     }
 
     // Show all filters with 'A' key
-    if (e.key === 'a' || e.key === 'A') {
+    if (e.key === "a" || e.key === "A") {
       e.preventDefault();
       this.showAllFilters();
       return;
@@ -2309,6 +2428,20 @@ class SweepBros {
       toast.style.transform = "translateX(100%)";
       setTimeout(() => toast.remove(), 300);
     }, 3000);
+  }
+
+  updateTimeDisplay(current, duration) {
+    if (this.videoCurrentTime)
+      this.videoCurrentTime.textContent = this.formatTime(current);
+    if (this.videoDuration && duration)
+      this.videoDuration.textContent = this.formatTime(duration);
+  }
+
+  formatTime(seconds) {
+    if (!seconds || isNaN(seconds)) return "0:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, "0")}`;
   }
 }
 

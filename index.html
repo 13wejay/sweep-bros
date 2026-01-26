@@ -290,61 +290,80 @@
                         <div class="zoom-container" id="zoomContainer">
                             <img id="previewImage" class="preview-media hidden" alt="Preview">
                         </div>
-                        <video id="previewVideo" class="preview-media hidden" controls></video>
+                        <video id="previewVideo" class="preview-media hidden"></video>
                         
-                        <!-- Video Controls Enhancement -->
-                        <div class="video-controls-panel hidden" id="videoControlsPanel">
-                            <div class="video-control-group">
-                                <div class="control-header">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    <span class="control-label">Speed</span>
+                        <!-- Media Toolbar (Unified Controls) -->
+                        <div class="media-toolbar-container">
+                            <div class="media-toolbar glass-panel">
+                                <!-- Video Controls Section -->
+                                <div class="toolbar-section hidden" id="videoControlsPanel">
+                                    <div class="video-control-group">
+                                        <button class="icon-btn-small" id="playPauseBtn" title="Play/Pause (Space)">
+                                            <svg viewBox="0 0 24 24" fill="none" class="play-icon" stroke="currentColor" stroke-width="2">
+                                                <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+                                            </svg>
+                                            <svg viewBox="0 0 24 24" fill="none" class="pause-icon hidden" stroke="currentColor" stroke-width="2">
+                                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        
+
+                                        
+                                        <div class="divider-vertical"></div>
+
+                                        <!-- Seek Bar -->
+                                        <div class="video-progress-container">
+                                            <span class="time-display" id="videoCurrentTime">0:00</span>
+                                            <input type="range" class="video-seek-bar" id="videoSeekBar" value="0" min="0" max="100" step="0.1">
+                                            <span class="time-display" id="videoDuration">0:00</span>
+                                        </div>
+
+                                        <div class="divider-vertical"></div>
+
+                                        <div class="speed-control">
+                                            <span class="control-label-mini">Speed</span>
+                                            <div class="speed-toggles">
+                                                <button class="speed-toggle" data-speed="0.5">0.5x</button>
+                                                <button class="speed-toggle active" data-speed="1">1x</button>
+                                                <button class="speed-toggle" data-speed="2">2x</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="divider-vertical"></div>
+
+                                        <button id="videoLoopToggleBtn" class="icon-btn-small toggle-btn" title="Loop Video">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M17 1l4 4-4 4"/>
+                                                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                                                <path d="M7 23l-4-4 4-4"/>
+                                                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="speed-buttons">
-                                    <button class="speed-btn" data-speed="0.5">0.5x</button>
-                                    <button class="speed-btn active" data-speed="1">1x</button>
-                                    <button class="speed-btn" data-speed="2">2x</button>
-                                </div>
-                            </div>
-                            <div class="control-divider"></div>
-                            <div class="video-control-group">
-                                <label class="loop-toggle">
-                                    <input type="checkbox" id="videoLoopToggle">
-                                    <span class="toggle-track">
-                                        <span class="toggle-thumb"></span>
-                                    </span>
-                                    <span class="toggle-label">
+
+                                <!-- Zoom Controls Section -->
+                                <div class="toolbar-section hidden" id="zoomControls">
+                                    <button id="zoomOutBtn" class="icon-btn-small" title="Zoom Out (-)">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="17 1 21 5 17 9"/>
-                                            <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-                                            <polyline points="7 23 3 19 7 15"/>
-                                            <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                                            <line x1="5" y1="12" x2="19" y2="12"/>
                                         </svg>
-                                        Loop
-                                    </span>
-                                </label>
+                                    </button>
+                                    <span id="zoomLevel" class="zoom-value">100%</span>
+                                    <button id="zoomInBtn" class="icon-btn-small" title="Zoom In (+)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="5" x2="12" y2="19"/>
+                                            <line x1="5" y1="12" x2="19" y2="12"/>
+                                        </svg>
+                                    </button>
+                                    <button id="zoomResetBtn" class="icon-btn-small" title="Reset Zoom">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <!-- Zoom Controls -->
-                        <div class="zoom-controls hidden" id="zoomControls">
-                            <button id="zoomOutBtn" class="zoom-btn" title="Zoom Out (-)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="8" y1="11" x2="14" y2="11"/>
-                                </svg>
-                            </button>
-                            <span id="zoomLevel" class="zoom-level">100%</span>
-                            <button id="zoomInBtn" class="zoom-btn" title="Zoom In (+)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
-                                </svg>
-                            </button>
-                            <button id="zoomResetBtn" class="zoom-btn" title="Reset Zoom">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M3 7v6h6M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"/>
-                                </svg>
-                            </button>
                         </div>
 
                         <!-- Smart Suggestions Panel -->
