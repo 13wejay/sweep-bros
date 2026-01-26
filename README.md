@@ -60,6 +60,10 @@ Sweep Bros uses the modern **File System Access API** to manage files directly o
 - **Icons**: SVG / Material Symbols
 - **API**: File System Access API
 
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started.
+
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
