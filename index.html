@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-        <div class="grid-overlay"></div>
+    <!-- Modern Minimalist Background -->
+    <div class="bg-gradient">
+        <div class="mesh-gradient"></div>
+        <div class="ambient-light light-1"></div>
+        <div class="ambient-light light-2"></div>
+        <div class="ambient-light light-3"></div>
     </div>
 
     <div class="app-container">
@@ -24,25 +24,32 @@
         <div id="landingPage" class="landing-page">
             <nav class="navbar">
                 <div class="nav-brand">
-                    <div class="brand-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
-                            <path d="M10 11v6M14 11v6"/>
+                    <div class="brand-icon-minimal">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="2" fill="none"/>
                         </svg>
                     </div>
-                    <span class="brand-text">Sweep<span class="brand-accent">Bros</span></span>
+                    <span class="brand-text-minimal">SweepBros</span>
                 </div>
                 <div class="nav-actions">
-                    <button id="navHelpBtn" class="nav-btn" title="How to Use">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    <button id="themeToggle" class="icon-btn" title="Toggle Theme">
+                        <svg id="themeIconDark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                        <svg id="themeIconLight" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                         </svg>
                     </button>
-                    <button id="navSettingsBtn" class="nav-btn" title="Settings">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button id="navHelpBtn" class="icon-btn" title="Help">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <button id="navSettingsBtn" class="icon-btn" title="Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                             <circle cx="12" cy="12" r="3"/>
                             <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
                         </svg>
@@ -50,82 +57,87 @@
                 </div>
             </nav>
 
-            <main class="hero">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span class="badge-dot"></span>
-                        No Installation Required
+            <main class="hero-minimal">
+                <div class="hero-content-centered" id="heroContent">
+                    <div class="status-pill">
+                        <span class="pulse-dot"></span>
+                        100% Local • No Upload
                     </div>
-                    <h1 class="hero-title">
-                        Sort Your Media<br>
-                        <span class="gradient-text">Into Custom Folders</span>
+                    
+                    <h1 class="title-xl">
+                        Organize Your Photos<br>
+                        <span class="title-gradient">In Seconds</span>
                     </h1>
-                    <p class="hero-description">
-                        Use <strong>Number Keys 0-9</strong> or <strong>Arrow Keys</strong> to sort files instantly.
-                        Your files stay on your PC — nothing is uploaded.
+                    
+                    <p class="subtitle-text">
+                        Use keyboard shortcuts to instantly sort media files into custom folders.<br class="hide-mobile">
+                        Everything stays private on your device.
                     </p>
 
-                    <div class="keyboard-demo">
-                        <div class="demo-keys-row">
-                            <div class="demo-key-mini" data-key="1">1</div>
-                            <div class="demo-key-mini" data-key="2">2</div>
-                            <div class="demo-key-mini" data-key="3">3</div>
-                            <div class="demo-key-mini" data-key="...">...</div>
-                            <div class="demo-key-mini" data-key="9">9</div>
-                            <div class="demo-key-mini" data-key="0">0</div>
-                        </div>
-                        <p class="demo-hint">Press number keys to sort into folders</p>
-                    </div>
-
-                    <button id="startBtn" class="cta-button">
-                        <span class="cta-icon">
+                    <!-- Drop Zone Overlay -->
+                    <div class="drop-zone-overlay hidden" id="dropZoneOverlay">
+                        <div class="drop-zone-content">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                             </svg>
-                        </span>
-                        <span class="cta-text">Select Folder</span>
-                        <span class="cta-arrow">→</span>
-                    </button>
+                            <h2>Drop Folder Here</h2>
+                            <p>Release to select this folder</p>
+                        </div>
+                    </div>
 
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                                    <line x1="12" y1="11" x2="12" y2="17"></line>
-                                    <line x1="9" y1="14" x2="15" y2="14"></line>
-                                </svg>
+                    <div class="key-visual">
+                        <div class="key-grid">
+                            <div class="key-item" data-key="1">
+                                <span class="key-number">1</span>
+                                <span class="key-label">Favorites</span>
                             </div>
-                            <h3>Custom Folders</h3>
-                            <p>Create up to 10 destination folders</p>
+                            <div class="key-item" data-key="2">
+                                <span class="key-number">2</span>
+                                <span class="key-label">Family</span>
+                            </div>
+                            <div class="key-item" data-key="3">
+                                <span class="key-number">3</span>
+                                <span class="key-label">Work</span>
+                            </div>
+                            <div class="key-item key-more">
+                                <span class="key-number">•••</span>
+                                <span class="key-label">More</span>
+                            </div>
                         </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
-                                    <line x1="6" y1="8" x2="6" y2="8"></line>
-                                    <line x1="10" y1="8" x2="10" y2="8"></line>
-                                    <line x1="14" y1="8" x2="14" y2="8"></line>
-                                    <line x1="18" y1="8" x2="18" y2="8"></line>
-                                    <line x1="6" y1="12" x2="6" y2="12"></line>
-                                    <line x1="10" y1="12" x2="10" y2="12"></line>
-                                    <line x1="14" y1="12" x2="14" y2="12"></line>
-                                    <line x1="18" y1="12" x2="18" y2="12"></line>
-                                    <line x1="6" y1="16" x2="18" y2="16"></line>
-                                </svg>
-                            </div>
-                            <h3>Quick Keys</h3>
-                            <p>Use 0-9 keys to sort instantly</p>
+                        <p class="key-hint">Press keys 0-9 to organize files instantly</p>
+                    </div>
+
+                    <div class="cta-group">
+                        <button id="startBtn" class="btn-primary-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <span>Choose Folder to Sort</span>
+                        </button>
+                        
+                        <div class="or-divider">
+                            <span>or drag & drop a folder anywhere</span>
                         </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 7v6h6"></path>
-                                    <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
-                                </svg>
-                            </div>
-                            <h3>Undo Support</h3>
-                            <p>Made a mistake? No problem</p>
+                    </div>
+
+                    <div class="benefits-compact">
+                        <div class="benefit-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Lightning fast sorting</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Undo any action</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span>Works offline</span>
                         </div>
                     </div>
                 </div>
@@ -208,12 +220,40 @@
                             <span id="fileName" class="file-name">Loading...</span>
                             <span id="fileCounter" class="file-counter">0 / 0</span>
                         </div>
+                        <div class="file-type-filters">
+                            <button id="filterImages" class="filter-chip active" data-filter="images" title="Toggle Images (M)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                                </svg>
+                                <span class="filter-label">Images</span>
+                                <span class="filter-count" id="imageCount">0</span>
+                            </button>
+                            <button id="filterVideos" class="filter-chip active" data-filter="videos" title="Toggle Videos (V)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                                </svg>
+                                <span class="filter-label">Videos</span>
+                                <span class="filter-count" id="videoCount">0</span>
+                            </button>
+                            <div class="filter-divider"></div>
+                            <button id="filterAll" class="filter-chip-text" title="Show All (A)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                All
+                            </button>
+                        </div>
                     </div>
                     <div class="header-right">
                         <div class="progress-pill">
                             <div id="progressBarFill" class="progress-bar-fill"></div>
                             <span id="progressPercent" class="progress-text">0%</span>
                         </div>
+                        <button id="batchModeBtn" class="icon-btn" title="Batch Mode">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                            </svg>
+                        </button>
                         <button id="undoBtn" class="icon-btn" title="Undo (Ctrl+Z)" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M3 7v6h6M21 17a9 9 0 00-9-9 9 9 0 00-6.36 2.64L3 13"/>
@@ -230,13 +270,113 @@
 
                 <!-- Preview Area -->
                 <div class="preview-wrapper">
-                    <div class="preview-container">
+                    <div class="preview-container" id="singlePreviewContainer">
                         <div id="loadingState" class="loading-state">
                             <div class="loader"></div>
                             <span>Loading media...</span>
                         </div>
-                        <img id="previewImage" class="preview-media hidden" alt="Preview">
+                        <div class="zoom-container" id="zoomContainer">
+                            <img id="previewImage" class="preview-media hidden" alt="Preview">
+                        </div>
                         <video id="previewVideo" class="preview-media hidden" controls></video>
+                        
+                        <!-- Video Controls Enhancement -->
+                        <div class="video-controls-panel hidden" id="videoControlsPanel">
+                            <div class="video-control-group">
+                                <span class="control-label">Speed:</span>
+                                <div class="speed-buttons">
+                                    <button class="speed-btn" data-speed="0.5">0.5x</button>
+                                    <button class="speed-btn active" data-speed="1">1x</button>
+                                    <button class="speed-btn" data-speed="2">2x</button>
+                                </div>
+                            </div>
+                            <div class="video-control-group">
+                                <label class="control-label">
+                                    <input type="checkbox" id="videoLoopToggle">
+                                    <span>Loop</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Zoom Controls -->
+                        <div class="zoom-controls hidden" id="zoomControls">
+                            <button id="zoomOutBtn" class="zoom-btn" title="Zoom Out (-)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="8" y1="11" x2="14" y2="11"/>
+                                </svg>
+                            </button>
+                            <span id="zoomLevel" class="zoom-level">100%</span>
+                            <button id="zoomInBtn" class="zoom-btn" title="Zoom In (+)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                                </svg>
+                            </button>
+                            <button id="zoomResetBtn" class="zoom-btn" title="Reset Zoom">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 7v6h6M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Metadata Panel -->
+                        <div class="metadata-panel hidden" id="metadataPanel">
+                            <button id="closeMetadata" class="close-metadata">×</button>
+                            <h3 class="metadata-title">File Info</h3>
+                            <div class="metadata-content" id="metadataContent">
+                                <div class="metadata-item">
+                                    <span class="metadata-label">Resolution:</span>
+                                    <span class="metadata-value" id="metaResolution">-</span>
+                                </div>
+                                <div class="metadata-item">
+                                    <span class="metadata-label">File Size:</span>
+                                    <span class="metadata-value" id="metaFileSize">-</span>
+                                </div>
+                                <div class="metadata-item">
+                                    <span class="metadata-label">Date Taken:</span>
+                                    <span class="metadata-value" id="metaDate">-</span>
+                                </div>
+                                <div class="metadata-item">
+                                    <span class="metadata-label">Camera:</span>
+                                    <span class="metadata-value" id="metaCamera">-</span>
+                                </div>
+                                <div class="metadata-item">
+                                    <span class="metadata-label">Type:</span>
+                                    <span class="metadata-value" id="metaType">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="showMetadataBtn" class="metadata-toggle-btn" title="Show File Info (I)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                            </svg>
+                        </button>
+
+                        <!-- Smart Suggestions Panel -->
+                        <div class="suggestions-panel hidden" id="suggestionsPanel">
+                            <h4 class="suggestions-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                                </svg>
+                                Suggested Folders
+                            </h4>
+                            <div class="suggestions-list" id="suggestionsList">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+
+                        <!-- Duplicate Warning -->
+                        <div class="duplicate-warning hidden" id="duplicateWarning">
+                            <div class="duplicate-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                                </svg>
+                            </div>
+                            <div class="duplicate-content">
+                                <div class="duplicate-title">Possible Duplicate</div>
+                                <div class="duplicate-message" id="duplicateMessage"></div>
+                            </div>
+                        </div>
                         
                         <!-- Arrow Mode Visual Hints -->
                         <div class="action-hint action-hint-left mode-arrows-only hidden">
@@ -246,6 +386,27 @@
                         <div class="action-hint action-hint-right mode-arrows-only hidden">
                             <div class="hint-key">→</div>
                             <span>Keep</span>
+                        </div>
+                    </div>
+
+                    <!-- Batch Grid View -->
+                    <div class="batch-grid-container hidden" id="batchGridContainer">
+                        <div class="batch-header">
+                            <div class="batch-info">
+                                <span id="selectedCount" class="selected-count">0 selected</span>
+                            </div>
+                            <div class="batch-actions">
+                                <button id="selectAllBtn" class="batch-btn">Select All</button>
+                                <button id="deselectAllBtn" class="batch-btn">Deselect All</button>
+                            </div>
+                        </div>
+                        <div class="batch-grid" id="batchGrid">
+                            <!-- Dynamically populated -->
+                        </div>
+                        <div class="batch-folder-bar">
+                            <div class="batch-folder-list" id="batchFolderList">
+                                <!-- Populated with folder buttons -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -439,6 +600,18 @@
                             <li><kbd>Space</kbd> <span>Skip file</span></li>
                         </ul>
                     </div>
+
+                    <div class="help-section">
+                        <h3 class="section-title">View & Filter Controls</h3>
+                        <p class="help-desc">Quick access to viewing options.</p>
+                        <ul class="key-list">
+                            <li><kbd>I</kbd> <span>Toggle file info panel</span></li>
+                            <li><kbd>M</kbd> <span>Toggle image filter</span></li>
+                            <li><kbd>V</kbd> <span>Toggle video filter</span></li>
+                            <li><kbd>A</kbd> <span>Show all file types</span></li>
+                            <li><kbd>+</kbd> / <kbd>-</kbd> <span>Zoom in/out (images)</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -446,12 +619,12 @@
         <!-- Key Binding Modal -->
         <div id="keyBindingModal" class="modal hidden">
             <div class="modal-overlay"></div>
-            <div class="completion-card" style="max-width: 400px; padding: 32px;">
-                <h2 style="margin-bottom: 24px;">Press ID Key</h2>
-                <div class="key-binding-display" style="margin-bottom: 32px;">
-                    <div id="pressedKeyDisplay" style="font-size: 3rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-primary); background: var(--bg-surface); padding: 16px 32px; border-radius: var(--radius-lg); border: 2px solid var(--border-color); display: inline-block; min-width: 120px;">-</div>
+            <div class="completion-card key-binding-modal-card">
+                <h2 class="key-binding-modal-title">Press ID Key</h2>
+                <div class="key-binding-display">
+                    <div id="pressedKeyDisplay">-</div>
                 </div>
-                <p style="color: var(--text-muted); margin-bottom: 24px;">Press any number key (0-9) to assign it to this folder.</p>
+                <p class="key-binding-instruction">Press any number key (0-9) to assign it to this folder.</p>
                 <div class="access-actions">
                     <button id="cancelKeyBindBtn" class="btn-secondary-modal">Cancel</button>
                     <button id="confirmKeyBindBtn" class="btn-primary-modal" disabled>Confirm</button>
