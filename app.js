@@ -147,10 +147,6 @@ class SweepBros {
     this.themeIconDark = document.getElementById("themeIconDark");
     this.themeIconLight = document.getElementById("themeIconLight");
 
-    // Drag and drop
-    this.heroContent = document.getElementById("heroContent");
-    this.dropZoneOverlay = document.getElementById("dropZoneOverlay");
-
     // Batch mode elements
     this.batchGridContainer = document.getElementById("batchGridContainer");
     this.batchGrid = document.getElementById("batchGrid");
@@ -210,9 +206,6 @@ class SweepBros {
     if (this.themeToggle)
       this.themeToggle.addEventListener("click", () => this.toggleTheme());
     this.navSettingsBtn.addEventListener("click", () => this.openSettings());
-
-    // Drag and drop for folder selection
-    this.setupDragAndDrop();
 
     // Folder access modal
     this.cancelAccessBtn.addEventListener("click", () =>
@@ -1106,27 +1099,30 @@ class SweepBros {
              (file.type === 'video' && this.showVideos);
     });
     
-    // Create intersection observer for lazy loading
+    // Create intersection observer for lazy loading with optimized settings
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const gridItem = entry.target;
-          const fileName = gridItem.dataset.fileName;
-          const file = remainingFiles.find(f => f.name === fileName);
-          
-          if (file && !gridItem.dataset.loaded) {
-            gridItem.dataset.loaded = 'true';
-            const preview = gridItem.querySelector('.batch-item-preview');
-            const skeleton = gridItem.querySelector('.batch-item-skeleton');
-            this.loadBatchThumbnail(file, preview, skeleton, gridItem);
-            observer.unobserve(gridItem);
+      // Batch DOM reads and writes for better performance
+      requestAnimationFrame(() => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const gridItem = entry.target;
+            const fileName = gridItem.dataset.fileName;
+            const file = remainingFiles.find(f => f.name === fileName);
+            
+            if (file && !gridItem.dataset.loaded) {
+              gridItem.dataset.loaded = 'true';
+              const preview = gridItem.querySelector('.batch-item-preview');
+              const skeleton = gridItem.querySelector('.batch-item-skeleton');
+              this.loadBatchThumbnail(file, preview, skeleton, gridItem);
+              observer.unobserve(gridItem);
+            }
           }
-        }
+        });
       });
     }, {
       root: this.batchGrid,
-      rootMargin: '200px',
-      threshold: 0.01
+      rootMargin: '400px',
+      threshold: 0
     });
     
     // Create grid items with placeholders
@@ -1179,11 +1175,18 @@ class SweepBros {
       if (file.type === 'image') {
         const img = document.createElement('img');
         img.loading = 'lazy';
-        img.onload = () => {
+        img.decoding = 'async';
+        
+        img.onload = async () => {
+          // Use decode() for smoother rendering
+          try {
+            await img.decode();
+          } catch (e) {
+            // Decode failed, continue anyway
+          }
           if (skeleton && skeleton.parentNode) {
             skeleton.remove();
           }
-          previewContainer.appendChild(img);
         };
         img.onerror = () => {
           if (skeleton && skeleton.parentNode) {
@@ -1192,13 +1195,17 @@ class SweepBros {
           previewContainer.innerHTML = '<div class="batch-error">⚠️</div>';
         };
         img.src = url;
+        
+        // Append image after setting src for better performance
+        previewContainer.appendChild(img);
       } else {
         const video = document.createElement('video');
+        video.preload = 'metadata';
+        
         video.onloadeddata = () => {
           if (skeleton && skeleton.parentNode) {
             skeleton.remove();
           }
-          previewContainer.appendChild(video);
         };
         video.onerror = () => {
           if (skeleton && skeleton.parentNode) {
@@ -1207,7 +1214,9 @@ class SweepBros {
           previewContainer.innerHTML = '<div class="batch-error">⚠️</div>';
         };
         video.src = url;
-        video.preload = 'metadata';
+        
+        // Append video after setting src for better performance
+        previewContainer.appendChild(video);
       }
       
       // Store URL for cleanup
@@ -1420,91 +1429,6 @@ class SweepBros {
     return false;
   }
 
-  // ===== Drag and Drop =====
-  setupDragAndDrop() {
-    if (!this.heroContent) return;
-
-    let dragCounter = 0;
-
-    this.heroContent.addEventListener('dragenter', (e) => {
-      e.preventDefault();
-      dragCounter++;
-      if (dragCounter === 1) {
-        this.dropZoneOverlay.classList.remove('hidden');
-      }
-    });
-
-    this.heroContent.addEventListener('dragleave', (e) => {
-      e.preventDefault();
-      dragCounter--;
-      if (dragCounter === 0) {
-        this.dropZoneOverlay.classList.add('hidden');
-      }
-    });
-
-    this.heroContent.addEventListener('dragover', (e) => {
-      e.preventDefault();
-    });
-
-    this.heroContent.addEventListener('drop', async (e) => {
-      e.preventDefault();
-      dragCounter = 0;
-      this.dropZoneOverlay.classList.add('hidden');
-
-      const items = e.dataTransfer.items;
-      
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        
-        if (item.kind === 'file') {
-          const entry = item.webkitGetAsEntry?.() || item.getAsEntry?.();
-          
-          if (entry && entry.isDirectory) {
-            try {
-              // Use the File System Access API to get directory handle
-              const handle = await this.getDirectoryHandleFromDrop(entry);
-              if (handle) {
-                this.directoryHandle = handle;
-                await this.loadFiles();
-
-                if (this.files.length === 0) {
-                  this.showToast(
-                    "No supported media files found in this folder.",
-                    "warning",
-                  );
-                  return;
-                }
-
-                await this.createOutputFolders();
-                this.openSorting();
-                this.loadCurrentFile();
-
-                this.showToast(`Found ${this.files.length} media files`, "success");
-              } else {
-                this.showToast("Please use the button to select a folder.", "warning");
-              }
-            } catch (err) {
-              console.error('Drag and drop failed:', err);
-              this.showToast("Drag and drop not supported. Please use the select folder button.", "warning");
-            }
-            break;
-          }
-        }
-      }
-    });
-  }
-
-  async getDirectoryHandleFromDrop(entry) {
-    // This is a workaround since we can't directly get a FileSystemDirectoryHandle from drag and drop
-    // We'll prompt the user to select the folder they just dropped
-    try {
-      this.showToast("Please confirm the folder selection in the dialog...", "info");
-      return await window.showDirectoryPicker();
-    } catch (e) {
-      return null;
-    }
-  }
-
   // ===== Theme Management =====
   toggleTheme() {
     const newTheme = this.theme === 'dark' ? 'light' : 'dark';
@@ -1542,11 +1466,19 @@ class SweepBros {
 
   async showMetadata() {
     this.metadataPanel.classList.remove('hidden');
+    this.showMetadataBtn?.classList.add('active');
+    // Add class to preview wrapper for layout adjustment
+    const previewWrapper = document.querySelector('.preview-wrapper');
+    if (previewWrapper) previewWrapper.classList.add('metadata-open');
     await this.loadMetadata();
   }
 
   hideMetadata() {
     this.metadataPanel.classList.add('hidden');
+    this.showMetadataBtn?.classList.remove('active');
+    // Remove class from preview wrapper
+    const previewWrapper = document.querySelector('.preview-wrapper');
+    if (previewWrapper) previewWrapper.classList.remove('metadata-open');
   }
 
   async loadMetadata() {

@@ -74,37 +74,38 @@
                         Your files never leave your device—completely private and secure.
                     </p>
 
-                    <!-- Drop Zone Overlay -->
-                    <div class="drop-zone-overlay hidden" id="dropZoneOverlay">
-                        <div class="drop-zone-content">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                            </svg>
-                            <h2>Drop Folder Here</h2>
-                            <p>Release to select this folder</p>
+                    <div class="features-showcase">
+                        <div class="feature-card-modern">
+                            <div class="feature-icon-modern">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                    <path d="M7 15h0M12 15h0M17 15h0M7 11h0M12 11h0M17 11h0M7 7h10"/>
+                                </svg>
+                            </div>
+                            <h3>Keyboard Shortcuts</h3>
+                            <p>Press 0-9 to instantly sort files into custom folders. Fast and efficient.</p>
                         </div>
-                    </div>
-
-                    <div class="key-visual">
-                        <div class="key-grid">
-                            <div class="key-item" data-key="1">
-                                <span class="key-number">1</span>
-                                <span class="key-label">Favorites</span>
+                        
+                        <div class="feature-card-modern">
+                            <div class="feature-icon-modern">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M3 7v6h6"/>
+                                    <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+                                </svg>
                             </div>
-                            <div class="key-item" data-key="2">
-                                <span class="key-number">2</span>
-                                <span class="key-label">Family</span>
-                            </div>
-                            <div class="key-item" data-key="3">
-                                <span class="key-number">3</span>
-                                <span class="key-label">Work</span>
-                            </div>
-                            <div class="key-item key-more">
-                                <span class="key-number">•••</span>
-                                <span class="key-label">Up to 10</span>
-                            </div>
+                            <h3>Undo Support</h3>
+                            <p>Made a mistake? Instantly undo any action with unlimited undo history.</p>
                         </div>
-                        <p class="key-hint">Press 0-9 to sort • Create custom folders for your workflow</p>
+                        
+                        <div class="feature-card-modern">
+                            <div class="feature-icon-modern">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <h3>100% Private</h3>
+                            <p>All processing happens locally. Your files never leave your device.</p>
+                        </div>
                     </div>
 
                     <div class="cta-group">
@@ -114,32 +115,8 @@
                             </svg>
                             <span>Start Organizing</span>
                         </button>
-                        
-                        <div class="or-divider">
-                            <span>or drag & drop a folder anywhere</span>
-                        </div>
                     </div>
 
-                    <div class="benefits-compact">
-                        <div class="benefit-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span>Process thousands in minutes</span>
-                        </div>
-                        <div class="benefit-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span>Unlimited undo & redo</span>
-                        </div>
-                        <div class="benefit-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span>No installation required</span>
-                        </div>
-                    </div>
                 </div>
             </main>
         </div>
@@ -249,6 +226,11 @@
                             <div id="progressBarFill" class="progress-bar-fill"></div>
                             <span id="progressPercent" class="progress-text">0%</span>
                         </div>
+                        <button id="showMetadataBtn" class="icon-btn" title="Show File Info (I)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                            </svg>
+                        </button>
                         <button id="batchModeBtn" class="icon-btn" title="Batch Mode">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
@@ -270,6 +252,36 @@
 
                 <!-- Preview Area -->
                 <div class="preview-wrapper">
+                    <!-- Metadata Sidebar -->
+                    <div class="metadata-sidebar hidden" id="metadataPanel">
+                        <div class="metadata-header">
+                            <h3 class="metadata-title">File Info</h3>
+                            <button id="closeMetadata" class="close-metadata-btn">×</button>
+                        </div>
+                        <div class="metadata-content" id="metadataContent">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Resolution:</span>
+                                <span class="metadata-value" id="metaResolution">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">File Size:</span>
+                                <span class="metadata-value" id="metaFileSize">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Date Taken:</span>
+                                <span class="metadata-value" id="metaDate">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Camera:</span>
+                                <span class="metadata-value" id="metaCamera">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Type:</span>
+                                <span class="metadata-value" id="metaType">-</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="preview-container" id="singlePreviewContainer">
                         <div id="loadingState" class="loading-state">
                             <div class="loader"></div>
@@ -283,17 +295,34 @@
                         <!-- Video Controls Enhancement -->
                         <div class="video-controls-panel hidden" id="videoControlsPanel">
                             <div class="video-control-group">
-                                <span class="control-label">Speed:</span>
+                                <div class="control-header">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    <span class="control-label">Speed</span>
+                                </div>
                                 <div class="speed-buttons">
                                     <button class="speed-btn" data-speed="0.5">0.5x</button>
                                     <button class="speed-btn active" data-speed="1">1x</button>
                                     <button class="speed-btn" data-speed="2">2x</button>
                                 </div>
                             </div>
+                            <div class="control-divider"></div>
                             <div class="video-control-group">
-                                <label class="control-label">
+                                <label class="loop-toggle">
                                     <input type="checkbox" id="videoLoopToggle">
-                                    <span>Loop</span>
+                                    <span class="toggle-track">
+                                        <span class="toggle-thumb"></span>
+                                    </span>
+                                    <span class="toggle-label">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="17 1 21 5 17 9"/>
+                                            <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                                            <polyline points="7 23 3 19 7 15"/>
+                                            <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                                        </svg>
+                                        Loop
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -317,40 +346,6 @@
                                 </svg>
                             </button>
                         </div>
-
-                        <!-- Metadata Panel -->
-                        <div class="metadata-panel hidden" id="metadataPanel">
-                            <button id="closeMetadata" class="close-metadata">×</button>
-                            <h3 class="metadata-title">File Info</h3>
-                            <div class="metadata-content" id="metadataContent">
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Resolution:</span>
-                                    <span class="metadata-value" id="metaResolution">-</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">File Size:</span>
-                                    <span class="metadata-value" id="metaFileSize">-</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Date Taken:</span>
-                                    <span class="metadata-value" id="metaDate">-</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Camera:</span>
-                                    <span class="metadata-value" id="metaCamera">-</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Type:</span>
-                                    <span class="metadata-value" id="metaType">-</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button id="showMetadataBtn" class="metadata-toggle-btn" title="Show File Info (I)">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-                            </svg>
-                        </button>
 
                         <!-- Smart Suggestions Panel -->
                         <div class="suggestions-panel hidden" id="suggestionsPanel">
@@ -376,16 +371,6 @@
                                 <div class="duplicate-title">Possible Duplicate</div>
                                 <div class="duplicate-message" id="duplicateMessage"></div>
                             </div>
-                        </div>
-                        
-                        <!-- Arrow Mode Visual Hints -->
-                        <div class="action-hint action-hint-left mode-arrows-only hidden">
-                            <div class="hint-key">←</div>
-                            <span>Delete</span>
-                        </div>
-                        <div class="action-hint action-hint-right mode-arrows-only hidden">
-                            <div class="hint-key">→</div>
-                            <span>Keep</span>
                         </div>
                     </div>
 
