@@ -1,0 +1,50 @@
+/* ===== Reset & Base - Modern ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    line-height: 1.6;
+    font-weight: 400;
+    transition: background var(--transition-base), color var(--transition-base);
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        height: auto;
+    }
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: all var(--transition-fast);
+}
+
+input {
+    font-family: inherit;
+}
+
+.hidden {
+    display: none !important;
+}

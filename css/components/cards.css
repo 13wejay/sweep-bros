@@ -1,0 +1,176 @@
+/* ===== Feature Cards ===== */
+.feature-card-modern {
+    padding: var(--space-lg); /* Reduced from xl */
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg); /* Slightly tight radius */
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s var(--ease-out) backwards;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+}
+
+.feature-card-modern:nth-child(1) { animation-delay: 0.1s; }
+.feature-card-modern:nth-child(2) { animation-delay: 0.2s; }
+.feature-card-modern:nth-child(3) { animation-delay: 0.3s; }
+.feature-card-modern:nth-child(4) { animation-delay: 0.4s; }
+
+.feature-card-modern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    z-index: 0;
+}
+
+.feature-card-modern:hover {
+    border-color: rgba(0, 113, 227, 0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
+}
+
+.feature-card-modern:hover::before {
+    opacity: 0.03;
+}
+
+.feature-icon-modern {
+    width: 48px; /* Reduced from 64 */
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    margin-bottom: var(--space-md); /* Reduced from lg */
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--accent-blue);
+    transition: all var(--transition-spring);
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--shadow-soft);
+}
+
+.feature-card-modern:hover .feature-icon-modern {
+    background: var(--accent-gradient);
+    color: white;
+    transform: scale(1.1) rotate(6deg);
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(0, 113, 227, 0.25);
+}
+
+.feature-icon-modern svg {
+    width: 24px; /* Reduced from 30 */
+    height: 24px;
+    stroke-width: 2;
+}
+
+.feature-card-modern h3 {
+    font-size: 1.125rem; /* Slightly smaller */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 1;
+}
+
+.feature-card-modern p {
+    font-size: 0.875rem; /* Smaller body text */
+    line-height: 1.5;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
+    font-weight: 400;
+}
+
+/* ===== Stat Cards (Completion) ===== */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.stat-item {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.stat-icon {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Legacy Stat Card Styles (if still used) */
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 120px;
+}
+
+.stat-card.kept .stat-icon {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.stat-card.deleted .stat-icon {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.stat-card.skipped .stat-icon {
+    background: var(--bg-glass);
+    color: var(--text-muted);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-card.kept .stat-number {
+    color: var(--success);
+}
+
+.stat-card.deleted .stat-number {
+    color: var(--danger);
+}

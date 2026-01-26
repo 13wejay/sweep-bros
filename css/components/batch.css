@@ -1,0 +1,171 @@
+/* ===== Batch Mode Styles ===== */
+.batch-grid-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.batch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-glass);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.selected-count {
+    font-weight: 600;
+    color: var(--accent-primary);
+    font-size: 1rem;
+}
+
+.batch-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.batch-grid {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    align-content: start;
+    contain: layout style paint;
+    will-change: scroll-position;
+}
+
+.batch-grid-item {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    background: var(--bg-elevated);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+    contain: layout style paint;
+}
+
+.batch-grid-item:hover {
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.batch-grid-item.selected {
+    border-color: var(--accent-primary);
+    background: rgba(99, 102, 241, 0.08);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.batch-checkbox {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: all var(--duration-fast);
+}
+
+.batch-checkbox svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+    transition: opacity var(--duration-fast);
+}
+
+.batch-grid-item.selected .batch-checkbox {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.batch-grid-item.selected .batch-checkbox svg {
+    opacity: 1;
+}
+
+.batch-item-skeleton {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-surface);
+    opacity: 1;
+    animation: skeleton-pulse 2s ease-in-out infinite;
+    z-index: 0;
+    will-change: opacity;
+}
+
+.batch-item-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--bg-subtle);
+    z-index: 1;
+}
+
+.batch-item-preview img,
+.batch-item-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.batch-item-preview .batch-error {
+    font-size: 2rem;
+    color: var(--text-muted);
+}
+
+.batch-item-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    padding: 8px;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.batch-folder-bar {
+    padding: 16px 20px;
+    background: var(--bg-glass);
+    border-top: 1px solid var(--border-color);
+}
+
+.batch-folder-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}

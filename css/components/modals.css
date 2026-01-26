@@ -1,0 +1,433 @@
+/* ===== Modal Base ===== */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--modal-overlay);
+    backdrop-filter: blur(8px);
+}
+
+/* ===== Folder Access Modal ===== */
+.access-card {
+    position: relative;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 
+        var(--shadow-lg),
+        0 0 80px rgba(99, 102, 241, 0.15);
+    animation: modalEnter 0.4s var(--ease-spring);
+}
+
+.access-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.access-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-gradient);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+}
+
+.access-icon svg {
+    width: 36px;
+    height: 36px;
+    color: white;
+}
+
+.access-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.access-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.access-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all var(--duration-fast);
+}
+
+.step:hover {
+    background: var(--bg-glass-hover);
+    border-color: var(--border-light);
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-content h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.step-content p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.access-info {
+    margin-bottom: 28px;
+}
+
+.info-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--success-soft);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-md);
+}
+
+.info-badge svg {
+    width: 18px;
+    height: 18px;
+    color: var(--success);
+    flex-shrink: 0;
+}
+
+.info-badge span {
+    font-size: 0.85rem;
+    color: var(--success);
+}
+
+.access-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ===== Completion Modal ===== */
+.completion-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 48px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: modalEnter 0.4s var(--ease-spring);
+    overflow: hidden;
+}
+
+.confetti-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+}
+
+.completion-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--success-soft);
+    border-radius: 50%;
+    animation: iconPop 0.5s var(--ease-spring) 0.2s both;
+}
+
+.completion-icon svg {
+    width: 40px;
+    height: 40px;
+    color: var(--success);
+}
+
+.completion-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.completion-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+.completion-actions {
+    display: flex;
+    justify-content: center;
+}
+
+/* ===== Settings Modal ===== */
+.settings-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    animation: modalEnter 0.3s var(--ease-out);
+    overflow: hidden;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.settings-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.settings-section {
+    margin-bottom: 28px;
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+
+.section-title svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.setting-row label {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.settings-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ===== Key Binding Modal ===== */
+.key-binding-modal-card {
+    max-width: 400px;
+    padding: 32px;
+}
+
+.key-binding-modal-title {
+    margin-bottom: 24px;
+}
+
+.key-binding-display {
+    margin-bottom: 32px;
+}
+
+#pressedKeyDisplay {
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--accent-primary);
+    background: var(--bg-surface);
+    padding: 16px 32px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-color);
+    display: inline-block;
+    min-width: 120px;
+}
+
+.key-binding-instruction {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.keybind-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: modalEnter 0.3s var(--ease-out);
+}
+
+.keybind-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-glass);
+    border-radius: var(--radius-lg);
+}
+
+.keybind-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--accent-primary);
+}
+
+.keybind-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.keybind-card p {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.pressed-key {
+    padding: 20px;
+    background: var(--bg-glass);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    font-size: 1.5rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent-primary);
+    margin-bottom: 24px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keybind-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ===== Help Modal ===== */
+.help-card {
+    max-width: 500px;
+}
+
+.help-section {
+    margin-bottom: 24px;
+}
+
+.help-desc {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.key-list {
+    list-style: none;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+}
+
+.key-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.key-list li:last-child {
+    margin-bottom: 0;
+}
+
+.key-list kbd {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: var(--font-mono);
+    min-width: 24px;
+    text-align: center;
+    box-shadow: 0 2px 0 var(--border-color);
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Sweep Bros",
+  "short_name": "SweepBros",
+  "description": "Effortlessly sort your photos and videos into custom folders with keyboard shortcuts.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "categories": ["photo", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "images/SweepBros_Screenshot.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Sweep Bros Desktop Interface"
+    }
+  ],
+  "shortcuts": []
+}

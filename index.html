@@ -5,7 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SweepBros - Smart Media Sorter</title>
     <meta name="description" content="Effortlessly sort your photos and videos into custom folders with keyboard shortcuts.">
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SweepBros - Smart Media Sorter">
+    <meta property="og:description" content="Effortlessly sort your photos and videos into custom folders with keyboard shortcuts.">
+    <meta property="og:image" content="favicon.svg">
+    <meta property="og:url" content="https://sweep-bros.vercel.app/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SweepBros">
+    <meta name="twitter:description" content="Fast, private media sorting in your browser.">
+    <meta name="twitter:image" content="favicon.svg">
+
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -25,10 +42,7 @@
             <nav class="navbar">
                 <div class="nav-brand">
                     <div class="brand-icon-minimal">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="2" fill="none"/>
-                        </svg>
+                        <img src="favicon.svg" alt="SweepBros Logo" style="width: 222%; height: 222%; object-fit: contain;">
                     </div>
                     <span class="brand-text-minimal">SweepBros</span>
                 </div>
@@ -640,6 +654,6 @@
         <div id="toastContainer" class="toast-container"></div>
     </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,275 @@
+/* ===== Form Elements ===== */
+
+/* Text Input */
+.text-input {
+    padding: 10px 14px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    width: 140px;
+    transition: all var(--duration-fast);
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Toggle Switch */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    transition: all var(--duration-fast);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.toggle input:checked + .toggle-slider {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.toggle input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+    background: white;
+}
+
+/* Key Binding Button (Used in forms/lists) */
+.key-binding-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    transition: all var(--duration-fast);
+}
+
+.key-binding-btn:hover {
+    background: var(--bg-glass-hover);
+    border-color: var(--border-light);
+}
+
+.key-binding-btn svg {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+}
+
+/* Binding List Row */
+.folder-bindings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.folder-binding-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.binding-key-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+}
+
+.binding-key-btn:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-glass-hover);
+}
+
+.binding-name-input {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: all var(--duration-fast);
+}
+
+.binding-name-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.binding-remove-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all var(--duration-fast);
+}
+
+.binding-remove-btn:hover {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.binding-remove-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.add-folder-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-glass);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+}
+
+.add-folder-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    background: var(--bg-glass-hover);
+}
+
+.add-folder-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Sorting Mode Select (Radio Cards) */
+.sorting-mode-select {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.mode-option {
+    cursor: pointer;
+}
+
+.mode-option input {
+    display: none;
+}
+
+.mode-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    background: var(--bg-surface);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--duration-fast);
+    height: 100%;
+}
+
+.mode-card:hover {
+    border-color: var(--border-light);
+    background: var(--bg-glass-hover);
+    transform: translateY(-2px);
+}
+
+.mode-option input:checked + .mode-card {
+    border-color: var(--accent-primary);
+    background: rgba(99, 102, 241, 0.08);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.mode-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    font-weight: 700;
+    transition: color 0.3s ease;
+    font-family: var(--font-mono);
+}
+
+.mode-option input:checked + .mode-card .mode-icon {
+    color: var(--accent-primary);
+}
+
+.mode-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.mode-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Setting Info */
+.setting-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.setting-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}

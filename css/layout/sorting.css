@@ -1,0 +1,342 @@
+/* ===== Sorting Layout ===== */
+.sorting-card {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-dark);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    animation: modalScaleIn 0.3s var(--ease-out);
+    overflow: hidden;
+    z-index: 200;
+}
+
+.sorting-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    background: var(--bg-elevated);
+    border-bottom: 2px solid var(--border-medium);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 10;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.file-name {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+}
+
+.file-counter {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-weight: 500;
+}
+
+.progress-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    min-width: 80px;
+    background: var(--bg-subtle);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.progress-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    background: var(--accent-gradient);
+    opacity: 0.35;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.progress-pill .progress-text {
+    position: relative;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+}
+
+/* Preview Area */
+.preview-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+    overflow: hidden;
+}
+
+[data-theme="dark"] .preview-wrapper {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+}
+
+.preview-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-media {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    margin: auto; /* Fallback centering */
+    display: block;
+}
+
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-light);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Folder Bar (Styles from first definition) */
+.folder-bar {
+    padding: 24px 32px;
+    background: var(--bg-elevated);
+    border-top: 2px solid var(--border-medium);
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    overflow-x: auto;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.folder-shortcuts {
+    flex: 1;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.arrow-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.folder-shortcut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 96px;
+    padding: 14px 16px;
+    background: var(--bg-subtle);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.folder-shortcut:hover {
+    background: var(--bg-elevated);
+    border-color: var(--accent-blue);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+}
+
+.folder-shortcut.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 113, 227, 0.3);
+    transform: translateY(-2px);
+}
+
+.folder-shortcut .key-badge {
+    /* position: absolute;  Removed to prevent overlap */
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border-medium);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    box-shadow: var(--shadow-soft);
+}
+
+.folder-shortcut .folder-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    letter-spacing: -0.01em;
+}
+
+
+/* Shortcuts Items (Alternative style found later in file) */
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: all var(--duration-fast);
+}
+
+.shortcut-item kbd {
+    background: var(--bg-surface-hover);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-primary);
+}
+
+.shortcut-item.active-action {
+    background: var(--success); 
+    border-color: var(--success);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Metadata Sidebar */
+.metadata-sidebar {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 280px;
+    background: rgba(20, 20, 25, 0.65); /* More transparent for glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    z-index: 50;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    color: white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition-base);
+}
+
+.metadata-sidebar.hidden {
+    opacity: 0;
+    transform: translateX(-20px);
+    pointer-events: none;
+}
+
+.metadata-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.metadata-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+}
+
+.close-metadata-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.close-metadata-btn:hover {
+    color: white;
+}
+
+.metadata-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.metadata-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.metadata-label {
+    color: var(--text-secondary);
+}
+
+.metadata-value {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-family: var(--font-mono);
+}

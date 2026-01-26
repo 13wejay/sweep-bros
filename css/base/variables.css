@@ -1,0 +1,127 @@
+/* ===== CSS Variables - Modern Premium ===== */
+:root {
+    /* Light Mode - Refined & Crisp */
+    --bg-base: #ffffff;
+    --bg-elevated: #fbfbfd;
+    --bg-subtle: #f5f5f7;
+    --bg-overlay: rgba(255, 255, 255, 0.85);
+    
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --text-tertiary: #a1a1a6;
+    
+    /* Vibrant yet Professional Accents */
+    --accent-blue: #0071e3;
+    --accent-purple: #5e5ce6;
+    --accent-pink: #ff375f;
+    --accent-gradient: linear-gradient(135deg, #0071e3 0%, #5e5ce6 50%, #ff375f 100%);
+    --accent-glow: 0 0 20px rgba(0, 113, 227, 0.4);
+    
+    --success: #34c759;
+    --success-bg: rgba(52, 199, 89, 0.1);
+    
+    --warning: #ff9f0a;
+    --danger: #ff453a;
+    
+    /* Subtler Borders */
+    --border-light: rgba(0, 0, 0, 0.06);
+    --border-medium: rgba(0, 0, 0, 0.12);
+    --border-strong: rgba(0, 0, 0, 0.2);
+    
+    /* Premium Smooth Shadows */
+    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.04);
+    --shadow-medium: 0 12px 48px rgba(0, 0, 0, 0.08);
+    --shadow-strong: 0 24px 64px rgba(0, 0, 0, 0.12);
+    
+    /* Spacing - More Breathable */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 40px;
+    --space-2xl: 64px;
+    --space-3xl: 96px;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-2xl: 36px;
+    --radius-full: 9999px;
+    
+    /* Typography */
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    
+    /* Transitions */
+    --transition-fast: 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-base: 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-slow: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    /* Legacy compatibility mappings */
+    --bg-glass: rgba(255, 255, 255, 0.6);
+    --bg-glass-hover: rgba(0, 0, 0, 0.04);
+    --bg-card: #ffffff;
+    --bg-dark: #fafafa;
+    --bg-surface: #f5f5f5;
+    --bg-surface-hover: #ececec;
+    --bg-secondary: #e5e5e5;
+    --text-muted: #9b9b9b;
+    --accent-primary: #0071e3;
+    --border-color: rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.12);
+    --success-soft: rgba(52, 199, 89, 0.15);
+    --modal-overlay: rgba(0, 0, 0, 0.3);
+    --skeleton-bg: rgba(0, 0, 0, 0.06);
+    --duration-fast: 0.15s;
+    --duration-normal: 0.25s;
+    --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    --danger-soft: rgba(255, 69, 58, 0.1);
+    --danger-glow: rgba(255, 69, 58, 0.4);
+    --success-glow: rgba(52, 199, 89, 0.4);
+    --accent-secondary: #0077ED; 
+}
+
+/* Dark Theme - Deep & Rich */
+[data-theme="dark"] {
+    --bg-base: #000000;
+    --bg-elevated: #161618;
+    --bg-subtle: #252527;
+    --bg-overlay: rgba(22, 22, 24, 0.85);
+    
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --text-tertiary: #6e6e73;
+    
+    --accent-blue: #2997ff;
+    --accent-purple: #5e5ce6;
+    --accent-pink: #ff375f;
+    --accent-gradient: linear-gradient(135deg, #2997ff 0%, #5e5ce6 50%, #ff375f 100%);
+    
+    --border-light: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --border-strong: rgba(255, 255, 255, 0.25);
+    
+    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --shadow-medium: 0 12px 48px rgba(0, 0, 0, 0.6);
+    --shadow-strong: 0 24px 80px rgba(0, 0, 0, 0.8);
+    
+    /* Legacy compatibility for dark mode */
+    --bg-glass: rgba(30, 30, 30, 0.6);
+    --bg-glass-hover: rgba(255, 255, 255, 0.1);
+    --bg-card: #1c1c1e;
+    --bg-dark: #000000;
+    --bg-surface: #1c1c1e;
+    --bg-surface-hover: #2c2c2e;
+    --bg-secondary: #1c1c1e;
+    --text-muted: #636366;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.8);
+    --success-soft: rgba(48, 209, 88, 0.2);
+    --modal-overlay: rgba(0, 0, 0, 0.75);
+    --skeleton-bg: rgba(255, 255, 255, 0.1);
+}
