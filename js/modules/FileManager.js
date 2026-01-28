@@ -216,7 +216,14 @@ export default class FileManager {
         to: targetHandle,
         newName: newName,
         oldName: file.name,
+        originalEntry: file, // Keep reference for undo if needed, though 'file' object is usually enough
       });
+
+      // Update allFiles to remove this file so it doesn't reappear on filter toggle
+      const allFilesIndex = this.allFiles.indexOf(file);
+      if (allFilesIndex > -1) {
+        this.allFiles.splice(allFilesIndex, 1);
+      }
 
       this.core.ui.showToast(`Moved to ${targetFolderName}`, "success");
       this.nextFile();
@@ -267,6 +274,12 @@ export default class FileManager {
         newName: file.name,
         oldName: file.name,
       });
+
+      // Update allFiles
+      const allFilesIndex = this.allFiles.indexOf(file);
+      if (allFilesIndex > -1) {
+        this.allFiles.splice(allFilesIndex, 1);
+      }
 
       this.core.ui.showToast("Moved to Deleted", "error"); // visual red toast
       this.nextFile();
@@ -336,7 +349,30 @@ export default class FileManager {
       await to.removeEntry(newName);
 
       // Restore state
+      // Restore state
       this.core.currentIndex--;
+
+      // Restore to allFiles
+      // We need to re-insert it. The file object (handle) in history might be stale effectively if we consider
+      // strict handle lifecycle, but usually the original handle remains valid if the file was just moved
+      // and we are moving it back. However, 'undo' logic here moves it BACK from destination.
+      // So the file at 'source' is NEWLY created by the write operation in undo.
+      // We need to update the file handle in our list to point to this restored file.
+
+      // Actually, in the undo logic above:
+      // const restoredHandle = await from.getFileHandle(oldName, { create: true });
+      // This 'restoredHandle' is the valid handle now.
+
+      // Update the file object with the new handle
+      file.handle = restoredHandle;
+
+      // Add back to allFiles if not present (it should have been removed)
+      if (!this.allFiles.includes(file)) {
+        this.allFiles.push(file);
+        // Resort properly to keep order?
+        this.allFiles.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
       this.core.ui.updateProgress(
         this.core.currentIndex,
         this.core.files.length,

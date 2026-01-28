@@ -66,8 +66,19 @@ export default class MediaViewer {
         document.getElementById("zoomControls")?.classList.add("hidden");
       }
     } catch (err) {
-      console.error(err);
-      this.core.ui.showToast("Failed to load preview", "error");
+      if (err.name === "NotFoundError" || err.message.includes("found")) {
+        console.warn("File not found (likely moved/deleted):", file.name);
+        this.core.ui.showToast(`File not found: ${file.name}`, "error");
+
+        // Update UI to show error state
+        this.elements.loading.classList.add("hidden");
+        // Optional: show a "broken file" icon or text in preview area
+        const container = document.getElementById("singlePreviewContainer");
+        // Simple error display could be injected or just leave blank with toast
+      } else {
+        console.error(err);
+        this.core.ui.showToast("Failed to load preview", "error");
+      }
     }
   }
 
