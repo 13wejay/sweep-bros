@@ -168,28 +168,48 @@ export default class FileManager {
       const targetHandle = await this.getSubFolderHandle(targetFolderName);
       if (!targetHandle) throw new Error("Could not get target folder");
 
-      // Check for duplicate in destination
-      let newName = file.name;
-      try {
-        await targetHandle.getFileHandle(newName);
-        // If exists, rename
-        const namePart = newName.substring(0, newName.lastIndexOf("."));
-        const ext = newName.split(".").pop();
-        newName = `${namePart}_${Date.now()}.${ext}`;
-      } catch (e) {
-        // File doesn't exist, safe to proceed
+      // Custom Naming Logic
+      const namingMode = this.core.settings.settings.namingMode;
+      const originalName = file.name;
+      const EXT = originalName.split(".").pop();
+      const NAME_PART = originalName.substring(
+        0,
+        originalName.lastIndexOf("."),
+      );
+
+      let newName = originalName;
+
+      // Determine initial desired name based on mode
+      switch (namingMode) {
+        case "numeric":
+          newName = await this.getNextNumericFilename(targetHandle, EXT);
+          break;
+        case "appendFolder":
+          newName = `${NAME_PART}_${targetFolderName}.${EXT}`;
+          break;
+        case "original":
+        default:
+          newName = originalName;
+          break;
       }
 
-      // Should auto-rename based on folder?
-      if (this.core.settings.settings.autoRename) {
-        const namePart = file.name.substring(0, file.name.lastIndexOf("."));
-        const ext = file.name.split(".").pop();
-        newName = `${namePart}_${targetFolderName}.${ext}`;
-        // Check collision again?
-        try {
-          await targetHandle.getFileHandle(newName);
-          newName = `${namePart}_${targetFolderName}_${Date.now()}.${ext}`;
-        } catch (e) {}
+      // Conflict Resolution (for non-numeric modes mostly, but numeric should be safe by design unless race condition)
+      // If numeric, we just calculated a safe one, but double check doesn't hurt.
+      // For others, we append timestamp if exists.
+      try {
+        await targetHandle.getFileHandle(newName);
+        // Collision!
+        if (namingMode === "numeric") {
+          // Should be rare if getNextNumericFilename is correct, but let's re-try or append timestamp
+          newName = `${await this.getNextNumericFilename(targetHandle, EXT, true)}`;
+        } else {
+          newName = `${NAME_PART}_${Date.now()}.${EXT}`;
+          if (namingMode === "appendFolder") {
+            newName = `${NAME_PART}_${targetFolderName}_${Date.now()}.${EXT}`;
+          }
+        }
+      } catch (e) {
+        // Safe
       }
 
       // Copy to new location
@@ -231,6 +251,29 @@ export default class FileManager {
       console.error("Move failed", err);
       this.core.ui.showToast(`Failed to move: ${err.message}`, "error");
     }
+  }
+
+  async getNextNumericFilename(dirHandle, ext, forceRecalc = false) {
+    let maxNum = 0;
+    try {
+      for await (const entry of dirHandle.values()) {
+        if (entry.kind === "file") {
+          const name = entry.name;
+          // Check if name is simple number: "1.jpg", "10.png"
+          const entryExt = name.split(".").pop();
+          if (entryExt.toLowerCase() !== ext.toLowerCase()) continue;
+
+          const nameNoExt = name.substring(0, name.lastIndexOf("."));
+          if (/^\d+$/.test(nameNoExt)) {
+            const num = parseInt(nameNoExt, 10);
+            if (num > maxNum) maxNum = num;
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Error scanning for numeric files", e);
+    }
+    return `${maxNum + 1}.${ext}`;
   }
 
   async deleteFile() {

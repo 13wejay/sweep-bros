@@ -15,7 +15,7 @@ export default class SettingsManager {
         { key: "4", folderName: "Memes" },
         { key: "0", folderName: "Misc" },
       ],
-      autoRename: false,
+      namingMode: "original", // "original", "appendFolder", "numeric"
       autoPlayVideo: true,
       confirmDelete: false,
     };
@@ -30,6 +30,11 @@ export default class SettingsManager {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
+        // Migration: autoRename (bool) -> namingMode (string)
+        if (parsed.autoRename !== undefined && !parsed.namingMode) {
+          parsed.namingMode = parsed.autoRename ? "appendFolder" : "original";
+          delete parsed.autoRename;
+        }
         settings = { ...this.defaults, ...parsed };
       } catch (e) {
         console.error("Failed to parse settings", e);
@@ -48,8 +53,7 @@ export default class SettingsManager {
       this.core.ui.updateUIForMode();
 
       // Set toggle states
-      const autoRenameToggle = document.getElementById("autoRenameToggle");
-      if (autoRenameToggle) autoRenameToggle.checked = this.settings.autoRename;
+      // Auto-rename toggle removed in favor of Naming Mode options
 
       const autoPlayToggle = document.getElementById("autoPlayToggle");
       if (autoPlayToggle) autoPlayToggle.checked = this.settings.autoPlayVideo;
@@ -58,6 +62,14 @@ export default class SettingsManager {
       const modeRadios = document.querySelectorAll('input[name="sortingMode"]');
       modeRadios.forEach((radio) => {
         if (radio.value === this.settings.sortingMode) radio.checked = true;
+      });
+
+      // Set radio for naming mode
+      const namingRadios = document.querySelectorAll(
+        'input[name="namingMode"]',
+      );
+      namingRadios.forEach((radio) => {
+        if (radio.value === this.settings.namingMode) radio.checked = true;
       });
     }
   }

@@ -557,15 +557,43 @@
                             </svg>
                             Behavior
                         </h3>
-                        <div class="setting-row toggle-row">
+                        <div class="setting-row multi-option-row">
                             <div class="setting-info">
-                                <label>Auto-rename files</label>
-                                <span class="setting-hint">Add "_foldername" suffix to moved files</span>
+                                <label>Naming Mode</label>
+                                <span class="setting-hint">Choose how files are renamed</span>
                             </div>
-                            <label class="toggle">
-                                <input type="checkbox" id="autoRenameToggle">
-                                <span class="toggle-slider"></span>
-                            </label>
+                            <div class="naming-mode-select">
+                                <label class="radio-card-option">
+                                    <div class="radio-input-wrapper">
+                                        <input type="radio" name="namingMode" value="original">
+                                    </div>
+                                    <div class="radio-content">
+                                        <span class="radio-label">Original Name</span>
+                                        <span class="radio-description">Keep the original filename. Adds timestamp if duplicate.</span>
+                                        <code class="preview-code">IMG_1234.jpg</code>
+                                    </div>
+                                </label>
+                                <label class="radio-card-option">
+                                    <div class="radio-input-wrapper">
+                                        <input type="radio" name="namingMode" value="appendFolder">
+                                    </div>
+                                    <div class="radio-content">
+                                        <span class="radio-label">Append Folder Name</span>
+                                        <span class="radio-description">Add folder name to the end of the filename.</span>
+                                        <code class="preview-code">IMG_1234_Vacation.jpg</code>
+                                    </div>
+                                </label>
+                                <label class="radio-card-option">
+                                    <div class="radio-input-wrapper">
+                                        <input type="radio" name="namingMode" value="numeric">
+                                    </div>
+                                    <div class="radio-content">
+                                        <span class="radio-label">Numeric Sequence</span>
+                                        <span class="radio-description">Rename to a simple number sequence in the folder.</span>
+                                        <code class="preview-code">1.jpg, 2.jpg...</code>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                         <div class="setting-row toggle-row">
                             <div class="setting-info">

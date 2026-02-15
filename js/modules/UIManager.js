@@ -72,11 +72,11 @@ export default class UIManager {
       });
     });
 
-    document
-      .getElementById("autoRenameToggle")
-      ?.addEventListener("change", (e) => {
-        this.core.settings.updateSetting("autoRename", e.target.checked);
+    document.querySelectorAll('input[name="namingMode"]').forEach((radio) => {
+      radio.addEventListener("change", (e) => {
+        this.core.settings.updateSetting("namingMode", e.target.value);
       });
+    });
 
     document
       .getElementById("autoPlayToggle")
